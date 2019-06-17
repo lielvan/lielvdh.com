@@ -13,7 +13,13 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const chapters = await loadChaptersCollection();
   await chapters.insertOne({
+    title: req.body.title,
+    title_link: req.body.title_link,
+    subtitle: req.body.subtitle,
     text: req.body.text,
+    image: req.body.image,
+    location: req.body.location,
+    time_frame: req.body.time_frame,
     createdAt: new Date()
   });
   res.status(201).send();

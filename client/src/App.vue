@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-dark is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">Liel van der Hoeven</a>
+        <a class="navbar-item" v-scroll-to="'#head'">Liel van der Hoeven</a>
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -79,12 +79,20 @@ h1 span {
 .slide-fade-enter-active {
   transition: all 2s ease;
 }
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(0.1, 1.0, 0.8, 0.1);
-}
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter {
   transform: translateX(35px);
   opacity: 0;
+}
+
+/* Custom Fade In Transition */
+.hidden {
+  opacity: 0;
+  transform: translateX(35px);
+}
+.showElement {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: all 2s ease;
 }
 
 h2.title, h1.title {

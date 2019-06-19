@@ -1,19 +1,19 @@
 <template>
-    <section id="motos" class="hero">
-        <h2 class="title is-2">Some Words I Live By</h2>
-        <div class="motos-wrapper hero-body">
-            <div class="container">
-                <ul>
-                    <li v-for="(moto, index) in motos" :item="moto" :index="index" :key="moto.id">
-                        <p class="is-size-6-mobile is-size-5-tablet is-size-4-desktop">{{ moto.text }}</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <parallax :speed-factor="0.3" :fixed="true">
-            <img src="/images/lake_wallpaper.jpg" alt="lake image">
-        </parallax>
-    </section>
+  <section id="motos" class="hero">
+    <h2 class="title is-2 hidden" v-fadein="'showElement'">Some Words I Live By</h2>
+    <div class="motos-wrapper hero-body">
+      <div class="container">
+        <ul>
+          <li v-for="(moto, index) in motos" :item="moto" :index="index" :key="moto._id">
+              <p class="is-size-6-mobile is-size-5-tablet is-size-4-desktop hidden" v-fadein="'showElement'">{{ moto.text }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <parallax :speed-factor="0.3" :fixed="true">
+      <img src="/images/lake_wallpaper.jpg" alt="lake image">
+    </parallax>
+  </section>
 </template>
 
 <script>

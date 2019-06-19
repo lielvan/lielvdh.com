@@ -1,14 +1,10 @@
 <template>
   <section id="chapters" class="hero is-primary is-bold is-medium">
-    <transition name="slide-fade" appear>
-      <h2 class="title is-size-2-desktop">Defining Chapters</h2>
-    </transition>
+    <h2 class="title is-size-2-desktop hidden" v-fadein="'showElement'">Defining Chapters</h2>
     <div class="hero-body chapters-wrapper">
       <div class="container">
         <div class="is-flex chapter-wrapper" v-for="(chapter, index) in chapters" v-bind:item="chapter" v-bind:index="index" v-bind:key="chapter._id">
-          <transition name="slide-fade" appear>
-            <ChapterComponent :chapter="chapter"/>
-          </transition>
+            <ChapterComponent class="hidden" v-fadein="'showElement'" :chapter="chapter"/>
         </div>
       </div>
     </div>
@@ -29,6 +25,7 @@ export default {
       chapters: [],
       error: '',
       text: '',
+      inView: false,
     }
   },
   async created() {
@@ -37,7 +34,7 @@ export default {
     } catch(err) {
       this.error = err.message;
     }
-  }
+  },
 }
 </script>
 
@@ -52,14 +49,5 @@ export default {
 
 .chapter-wrapper {
   justify-content: center;
-}
-
-.slide-fade-enter-active {
-  transition: all 2s ease;
-}
-
-.slide-fade-enter {
-  transform: translateX(35px);
-  opacity: 0;
 }
 </style>

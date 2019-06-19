@@ -1,6 +1,6 @@
 <template>
   <section id="chapters" class="hero is-primary is-bold is-medium">
-    <h2 class="title is-size-2-desktop hidden" v-fadein="'showElement'">Defining Chapters</h2>
+    <h2 class="title is-size-2-desktop hidden section-title" v-fadein="'showElement'">Some of my<br>Defining Chapters</h2>
     <div class="hero-body chapters-wrapper">
       <div class="container">
         <div class="is-flex chapter-wrapper" v-for="(chapter, index) in chapters" v-bind:item="chapter" v-bind:index="index" v-bind:key="chapter._id">

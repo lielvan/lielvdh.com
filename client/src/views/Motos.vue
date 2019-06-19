@@ -1,6 +1,6 @@
 <template>
   <section id="motos" class="hero">
-    <h2 class="title is-2 hidden" v-fadein="'showElement'">Some Words I Live By</h2>
+    <h2 class="title is-2 hidden section-title" v-fadein="'showElement'">Few words <br> I Live By</h2>
     <div class="motos-wrapper hero-body">
       <div class="container">
         <ul>

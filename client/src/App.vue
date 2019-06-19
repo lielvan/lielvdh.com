@@ -18,10 +18,18 @@
           <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
         </div>
         <div class="navbar-end">
-          <a class="navbar-item">GitHub</a>
-          <a class="navbar-item">LinkedIn</a>
-          <a class="navbar-item">Facebook</a>
-          <a class="navbar-item">Instagram</a>
+          <a class="navbar-item" href="http://github.com/lielvan" target="__blank">
+            <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'github-alt']"></font-awesome-icon></span>
+          </a>
+          <a class="navbar-item" href="http://www.linkedin.com/in/liel-van-der-hoeven" target="__blank">
+            <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'linkedin-in']"></font-awesome-icon></span>
+          </a>
+          <a class="navbar-item" href="http://www.facebook.com/lielvan" target="__blank">
+            <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'facebook-f']"></font-awesome-icon></span>
+          </a>
+          <a class="navbar-item" href="http://www.instagram.com/lielvdh" target="__blank">
+            <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon></span>
+          </a>
         </div>
       </div>
     </nav>
@@ -68,7 +76,7 @@ body{
   color: #2c3e50;
 }
 
-h1 span {
+h1 span, .section-title {
   font-family: 'Architects Daughter';
 }
 
@@ -102,5 +110,10 @@ h2.title, h1.title {
     padding: 10px 0;
     border-top: 2px solid;
     border-bottom: 2px solid;
+}
+@media only screen and (max-width: 1023px) { 
+  .navbar-end .navbar-item {
+    display: inline-block;
+  }
 }
 </style>

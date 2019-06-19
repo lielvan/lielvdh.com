@@ -3,7 +3,7 @@
         <div class="hero-body">
             <div class="container">
                 <p>Let's Touch Base. Best way through <a href="https://www.linkedin.com/in/liel-van-der-hoeven" style="color:#3273dc;">LinkedIn</a>, <a href="https://www.facebook.com/lielvan" style="color:#3273dc;">Facebook</a> or <a href="mailto:lielvdh@gmail.com" style="color:#3273dc;">Email</a></p>
-                <p>Currently open to new opportunities within the realm of the evergrowing tech world <img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></p>
+                <p>Currently open to new opportunities within the realm of the evergrowing tech world<img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></p>
 
                 <div class="footer-logos">
                     <a href="https://www.linkedin.com/in/liel-van-der-hoeven"><img src="/images/ln_logo.png" alt="LinkedIn Logo"></a>
@@ -32,6 +32,7 @@ export default {
     margin: 15px;
 }
 .container #mini_computer {
+    margin-left: 10px;
     -webkit-animation:spin 4s linear infinite;
     animation: spin 4s linear infinite;
 }
@@ -50,6 +51,7 @@ export default {
 }
 .cv-download a {
     padding: 7px;
+    color: #000;
     background-color: rgb(245, 175, 47);
     font-weight: 600;
     font-size: 20px;

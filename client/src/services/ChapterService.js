@@ -24,7 +24,7 @@ class ChapterService {
   // Create Chapter
   static insertChapter(title, title_link, subtitle, text, image, location, time_frame) {
     return axios.post(url, {
-      text,
+      title,
       title_link,
       subtitle,
       text,

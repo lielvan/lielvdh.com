@@ -29,6 +29,7 @@
     <Head />
     <Chapters />
     <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
+    <Motos />
     <Footer />
     
   </div>
@@ -37,6 +38,7 @@
 <script>
 import Head from "@/views/Head.vue";
 import Chapters from "@/views/Chapters.vue";
+import Motos from "@/views/Motos.vue";
 import Footer from "@/views/Footer.vue";
 
 export default {
@@ -44,6 +46,7 @@ export default {
   components: {
     Head,
     Chapters,
+    Motos,
     Footer
   }
 }

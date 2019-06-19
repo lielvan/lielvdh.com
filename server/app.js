@@ -9,7 +9,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const chapters = require('./routes/api/chapters');
+const motos = require('./routes/api/motos');
 app.use('/api/chapters', chapters);
+app.use('/api/motos', motos);
 
 // Handle Production
 if(process.env.NODE_ENV === 'production') {

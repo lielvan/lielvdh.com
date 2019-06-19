@@ -1,52 +1,48 @@
 <template>
-  <!-- Home Section w/Nav -->
   <div id="app">
-    <section id="home" class="hero is-dark is-fullheight">
-      <!-- Hero head: will stick at the top -->
-      <div class="hero-head">
-        <header class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand">
-            <a class="navbar-item">Liel van der Hoeven</a>
-            <span class="navbar-burger burger" data-target="navbarMenuHeroC">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
-          <div id="navbarMenuHeroC" class="navbar-menu">
-            <div class="navbar-end">
-              <a class="navbar-item" v-scroll-to="'#home'">Home</a>
-              <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
-              <a class="navbar-item" v-scroll-to="'#books'">Reading List</a>
-              <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>
-              <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
-            </div>
-          </div>
-        </header>
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">Liel van der Hoeven</a>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <!-- Hero content: will be in the middle -->
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <transition name="slide-fade" appear>
-            <h1 class="title is-size-1-desktop"><span>Hey, I'm</span><br>Liel van der Hoeven</h1>
-          </transition>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" v-scroll-to="'#head'">Home</a>
+          <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
+          <a class="navbar-item" v-scroll-to="'#books'">Reading List</a>
+          <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>
+          <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item">GitHub</a>
+          <a class="navbar-item">LinkedIn</a>
+          <a class="navbar-item">Facebook</a>
+          <a class="navbar-item">Instagram</a>
         </div>
       </div>
-    </section>
+    </nav>
 
+    <Head />
     <Chapters />
+    <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
     <Footer />
     
   </div>
 </template>
 
 <script>
+import Head from "@/views/Head.vue";
 import Chapters from "@/views/Chapters.vue";
 import Footer from "@/views/Footer.vue";
 
 export default {
   name: 'app',
   components: {
+    Head,
     Chapters,
     Footer
   }
@@ -86,5 +82,14 @@ h1 span {
 .slide-fade-enter, .slide-fade-leave-to {
   transform: translateX(35px);
   opacity: 0;
+}
+
+h2.title, h1.title {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 10px 0;
+    border-top: 2px solid;
+    border-bottom: 2px solid;
 }
 </style>

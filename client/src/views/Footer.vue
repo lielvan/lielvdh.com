@@ -19,25 +19,41 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import Chapters from "@/views/Chapters.vue";
-
 export default {
-    name: "home",
-    components: {
-      Chapters
-    }
+    name: "Footer",
 };
 </script>
 
 <style>
-h2.title, h1.title {
-    width: fit-content;
-    margin-right: auto;
-    margin-left: auto;
-    padding: 10px 0;
-    border-top: 2px solid;
-    border-bottom: 2px solid;
+.footer-logos {
+    margin-top: 15px;
+}
+.footer-logos img {
+    margin: 15px;
+}
+.container #mini_computer {
+    -webkit-animation:spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+@-webkit-keyframes spin { 
+    0% { -webkit-transform: rotate(0deg) scale(1.2,1.2); }
+    50% { -webkit-transform: rotate(180deg) scale(1,1); }
+    100% { -webkit-transform: rotate(360deg) scale(1.2,1.2); }
+}
+@keyframes spin {
+    0% { transform:rotate(0deg) scale(1.2,1.2); }
+    50% { transform:rotate(180deg) scale(1,1); }
+    100% { transform:rotate(360deg) scale(1.2,1.2); }
+}
+.cv-download {
+    margin-top: 10px;
+}
+.cv-download a {
+    padding: 7px;
+    background-color: rgb(245, 175, 47);
+    font-weight: 600;
+    font-size: 20px;
+    font-family: 'Architects Daughter';
+    border-radius: 10px;
 }
 </style>
-

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from "./router";
 import vueScrollTo from 'vue-scrollto';
 import 'bulma/css/bulma.css';
 import '../src/assets/js/scripts';
@@ -36,5 +37,6 @@ Vue.directive('fadein', {
 })
 
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')

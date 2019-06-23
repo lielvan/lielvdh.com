@@ -1,18 +1,16 @@
 const express = require('express');
-const mongodb = require('mongodb');
-
 const router = express.Router();
+const Chapter = require('../../models/chapter');
 
-// Get Chapters
+// INDEX - Get all chapters
 router.get('/', async (req, res) => {
-  const chapters = await loadChaptersCollection();
-  res.send(await chapters.find({}).toArray());
+  const chapters = await Chapter.find({});
+  res.send(chapters);
 });
 
-// Add Chapter
+// CREATE - Add a chapter
 router.post('/', async (req, res) => {
-  const chapters = await loadChaptersCollection();
-  await chapters.insertOne({
+  const newChapter = {
     title: req.body.title,
     title_link: req.body.title_link,
     subtitle: req.body.subtitle,
@@ -21,24 +19,27 @@ router.post('/', async (req, res) => {
     location: req.body.location,
     time_frame: req.body.time_frame,
     createdAt: new Date()
-  });
-  res.status(201).send();
+  }
+  await Chapter.create(newChapter, (err, chapter) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.status(201).send();
+    }
+  })
 });
 
-// Delete Chapter
+// DESTROY - Delete a chapter
 router.delete('/:id', async (req, res) => {
-  const chapters = await loadChaptersCollection();
-  await chapters.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
-  res.status(200).send();
+  await Chapter.findOneAndDelete({ _id: req.params.id }, (err, chapterDeleted) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(chapterDeleted);
+      res.status(200).send();
+    }
+  })
 });
 
-
-async function loadChaptersCollection() {
-  const client = await mongodb.MongoClient.connect('mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh?retryWrites=true&w=majority', {
-    useNewUrlParser: true
-  });
-
-  return client.db('lielvdh').collection('chapters');
-}
 
 module.exports = router;

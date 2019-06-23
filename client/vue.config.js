@@ -8,5 +8,8 @@ module.exports = {
         target: 'http://localhost:5000'
       }
     }
+  },
+  configureWebpack: {
+    devtool: 'source-map'
   }
 }

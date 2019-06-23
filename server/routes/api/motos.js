@@ -1,38 +1,39 @@
 const express = require('express');
-const mongodb = require('mongodb');
-
 const router = express.Router();
+const Moto = require('../../models/moto');
 
-// Get Motos
+
+// INDEX - Show all motos
 router.get('/', async (req, res) => {
-  const motos = await loadMotosCollection();
-  res.send(await motos.find({}).toArray());
+  const motos = await Moto.find({});
+  res.send(motos);
 });
 
-// Add Moto
+// CREATE - Add new moto
 router.post('/', async (req, res) => {
-  const motos = await loadMotosCollection();
-  await motos.insertOne({
+  const newMoto = {
     text: req.body.text,
     createdAt: new Date()
+  };
+  await Moto.create(newMoto, (err, moto) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.status(201).send();
+    }
   });
-  res.status(201).send();
 });
 
-// Delete Moto
+// DESTROY - Delete a moto
 router.delete('/:id', async (req, res) => {
-  const motos = await loadMotosCollection();
-  await motos.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
-  res.status(200).send();
-});
-
-
-async function loadMotosCollection() {
-  const client = await mongodb.MongoClient.connect('mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh?retryWrites=true&w=majority', {
-    useNewUrlParser: true
-  });
-
-  return client.db('lielvdh').collection('motos');
-}
+  await Moto.findOneAndDelete({ _id: req.params.id }, (err, motoDeleted) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(motoDeleted);
+      res.status(200).send();
+    }
+  })
+}); 
 
 module.exports = router;

@@ -1,10 +1,13 @@
 const express       = require('express'),
       app           = express(),
       bodyParser    = require('body-parser'),
+      session       = require('express-session'),
       mongoose      = require('mongoose'),
+      MongoStore    = require('connect-mongo')(session),
       cors          = require('cors'),
       passport      = require('passport'),
-      LocalStrategy = require('passport-local');
+      LocalStrategy = require('passport-local'),
+      middleware    = require('./middleware');
 
 // Models
 const User = require('./models/user');
@@ -27,14 +30,19 @@ mongoose.connect(url, {
 });
 
 // Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // Passport
-app.use(require("express-session")({
+app.use(session({
   secret: "lvdhsession",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new MongoStore({
+    url: url,
+    touchAfter: 24 * 3600 // time period in seconds
+  })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -42,19 +50,17 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-})
-
 
 app.use('/api', indexRoutes);
-app.get('/api/user', async (req, res) => {
-  // TODO - Fix issue with req.user where unable to retrieve current session user's data
+app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
   console.log("Current User: " + req.user);
-  let currentUser2 = await User.findById(req.session.passport.user);
-  console.log([currentUser2, req.session]);
-  res.send({user: currentUser2});
+  try {
+    let currentUser = await User.findById(req.user._id);
+    console.log([currentUser, req.session]);
+    res.send({user: currentUser});
+  } catch (error) {
+    console.log(error);
+  }
 });
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/motos', motosRoutes);

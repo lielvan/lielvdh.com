@@ -17,16 +17,16 @@
           <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
         </div>
         <div class="navbar-end">
-          <a class="navbar-item" href="http://github.com/lielvan" target="__blank">
+          <a id="github-logo" class="navbar-item" href="http://github.com/lielvan" target="__blank">
             <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'github-alt']"></font-awesome-icon></span>
           </a>
-          <a class="navbar-item" href="http://www.linkedin.com/in/liel-van-der-hoeven" target="__blank">
+          <a id="linkedin-logo" class="navbar-item" href="http://www.linkedin.com/in/liel-van-der-hoeven" target="__blank">
             <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'linkedin-in']"></font-awesome-icon></span>
           </a>
-          <a class="navbar-item" href="http://www.facebook.com/lielvan" target="__blank">
+          <a id="facebook-logo" class="navbar-item" href="http://www.facebook.com/lielvan" target="__blank">
             <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'facebook-f']"></font-awesome-icon></span>
           </a>
-          <a class="navbar-item" href="http://www.instagram.com/lielvdh" target="__blank">
+          <a id="instagram-logo" class="navbar-item" href="http://www.instagram.com/lielvdh" target="__blank">
             <span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'instagram']"></font-awesome-icon></span>
           </a>
         </div>
@@ -101,6 +101,22 @@ h2.title, h1.title {
     padding: 10px 0;
     border-top: 2px solid;
     border-bottom: 2px solid;
+}
+#github-logo, #linkedin-logo, #facebook-logo, #instagram-logo {
+  transition: all .3s;
+}
+#github-logo:hover {
+  background: rgb(125, 187, 230);
+}
+#linkedin-logo:hover {
+  background: rgb(0, 119, 181);
+}
+#facebook-logo:hover {
+  background: rgb(60,90,153);
+}
+#instagram-logo:hover { 
+  /* Currently grandient transition isn't supported */
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
 }
 @media only screen and (max-width: 1023px) { 
   .navbar-end .navbar-item {

@@ -41,6 +41,7 @@ export default {
 <style scoped>
 #chapter {
   box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
+  border-radius: 20px 100px;
 }
 
 .image {

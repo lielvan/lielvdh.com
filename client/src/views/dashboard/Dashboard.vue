@@ -7,7 +7,7 @@
 
 <script>
 import router from "../../router";
-import axios from "axios";
+import AuthService from '../../services/AuthService'
 
 export default {
   name: "Dashboard",
@@ -20,15 +20,13 @@ export default {
     this.getUserData()
   },
   methods: {
-    getUserData: function() {
-      let self = this;
-      axios.get("api/user", { withCredentials: true })
-        .then((response) => {
-          this.user = response.data.user;
-        })
-        .catch((errors) => {
-          router.push("/"); 
-        })
+    async getUserData() {
+      try {
+        let response = await AuthService.getUser();
+        this.user = response.data.user;
+      } catch (error) {
+        router.push("/");
+      }
     }
   }
 }

@@ -4,7 +4,11 @@ const express  = require('express'),
       User = require('../../models/user');
       middleware = require('../../middleware');
 
-// Auth Routes      
+//********************************
+//* AUTH ROUTES
+//*********************************
+
+// Register
 router.post('/register', async (req, res) => {
   const newUser = new User({username: req.body.username});
   await User.register(newUser, req.body.password, (err, user) => {
@@ -18,6 +22,7 @@ router.post('/register', async (req, res) => {
   })
 });
 
+// Login
 router.post('/login', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if(err) {
@@ -33,17 +38,16 @@ router.post('/login', (req, res, next) => {
     req.logIn(user, err => {
       if(err) { return next(err); }
       console.log(user);
-      res.send("Logged In");
+      res.sendStatus(200);
     });
   })(req, res, next);
 });
 
+// Logout
 router.get('/logout', async (req, res) => {
   await req.logout();
   console.log("Logged out");
   return res.send();
 });
-
-
 
 module.exports = router;

@@ -1,3 +1,6 @@
+//********************************
+//* GLOBAL VARIABLES
+//*********************************
 const express       = require('express'),
       app           = express(),
       bodyParser    = require('body-parser'),
@@ -50,7 +53,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
+//********************************
+//* ROUTES
+//*********************************
 app.use('/api', indexRoutes);
 app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
   console.log("Current User: " + req.user);
@@ -64,8 +69,6 @@ app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
 });
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/motos', motosRoutes);
-
-
 
 
 // Handle Production

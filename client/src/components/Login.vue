@@ -28,7 +28,6 @@ export default {
         username: this.username,
         password: this.password
       }
-      let response = {}
       debugger;
       try {
         await AuthService.login(data);

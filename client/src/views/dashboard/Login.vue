@@ -3,6 +3,7 @@
     <div class="hero-body">
       <div class="container">
         <h2 class="title">Login</h2>
+        <p class="has-text-danger">{{ error }}</p>
         <form @submit.prevent="login">
           <div class="columns field">
             <div class="column is-one-quarter">
@@ -39,7 +40,6 @@
 
 <script>
 import router from '../../router';
-import AuthService from '../../services/AuthService'
 
 export default {
   name: "login",
@@ -47,6 +47,7 @@ export default {
     return {
       username: '',
       password: '',
+      error: '',
     }
   },
   computed: {
@@ -61,20 +62,24 @@ export default {
         password: this.password
       }
       // debugger;
-      try {
-        this.$store.dispatch('login', data);
-        this.resetForm();
-        router.push('/dashboard'); // Currently doesn't work, seems to be an issue with route guard and $store.isLoggedIn
-      } catch(err) {
-
-      }
+      this.$store.dispatch('login', data)
+        .then(() => {
+          this.resetForm();
+          router.push('/dashboard');
+        })
+        .catch(err => {
+          this.error = err;
+        })
     },
     logout() {
       // debugger;
-      try {
-        this.$store.dispatch('logout');
-        router.push('/');
-      } catch(err) {}
+      this.$store.dispatch('logout')
+        .then(() => {
+          router.push('/');
+        })
+        .catch(err => {
+          this.error = err;
+        })
     },
     resetForm() {
       this.username = '';
@@ -85,6 +90,9 @@ export default {
 </script>
 
 <style scoped>
+.has-text-danger {
+  margin-bottom: 1.5rem;
+}
 #login.is-fullheight .hero-body {
   align-items: flex-start;
 }

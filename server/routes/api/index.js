@@ -26,17 +26,22 @@ router.post('/register', async (req, res) => {
 router.post('/login', (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if(err) {
-      console.log(err);
-      return next(err);
+      console.log(`Error: ${err}`);
+      return res.send(err);
+      // return next(err);
     }
 
     if(!user) {
-      console.log(info);
-      return res.status(400).send([user, "Cannot log in", info]);
+      console.log(`Info: ${info}`);
+      return res.status(400).send(info);
+      // return res.status(400).send([user, "Cannot log in", info]);
     }
 
     req.logIn(user, err => {
-      if(err) { return next(err); }
+      if(err) { 
+        console.log(`LogIn Error: ${err}`);
+        return res.send(err); 
+      }
       console.log(user);
       res.status(200).send({user: user});
     });

@@ -3,11 +3,11 @@ import axios from 'axios';
 const url = 'api/';
 
 class AuthService {
-  static login(data) {
+  static login(data) { // REMOVE
     return axios.post(`${url}login`, data, { withCredentials: true });
   }
 
-  static logout() {
+  static logout() { // REMOVE
     return axios.get(`${url}logout`);
   }
 

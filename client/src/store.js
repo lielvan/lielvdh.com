@@ -5,7 +5,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
-const url = 'api';
+const url = '/api';
 const store = new Vuex.Store({
   state: {
     status: '',

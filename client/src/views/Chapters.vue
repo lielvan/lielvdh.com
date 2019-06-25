@@ -30,7 +30,7 @@ export default {
   },
   async created() {
     try {
-      this.chapters = await ChapterService.getPosts();
+      this.chapters = await ChapterService.getChapters();
     } catch(err) {
       this.error = err.message;
     }

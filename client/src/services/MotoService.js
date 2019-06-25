@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'api/motos/';
+const url = '/api/motos/';
 
 class MotoService {
   // Get Moto

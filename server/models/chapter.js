@@ -8,7 +8,7 @@ var chapterSchema = new mongoose.Schema({
   image: String,
   location: String,
   time_frame: String,
-  createAt: {
+  createdAt: {
       type: Date,
       default: Date.now
   }

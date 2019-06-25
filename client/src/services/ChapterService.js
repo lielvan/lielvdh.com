@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const url = 'api/chapters/';
+const url = '/api/chapters/';
 
 class ChapterService {
   // Get Chapter
-  static getPosts() {
+  static getChapters() {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url);

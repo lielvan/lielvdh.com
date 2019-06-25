@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'api/';
+const url = '/api/';
 
 class AuthService {
   static login(data) { // REMOVE

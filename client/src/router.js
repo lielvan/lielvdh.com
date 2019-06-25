@@ -22,15 +22,26 @@ const router = new Router({
     },
     {
       path: "/dashboard",
-      name: "dashboard",
       component: Dashboard,
       meta: {
         requiresAuth: true
-      }
+      },
+      children: [
+        {
+          path: "/",
+          name: "dashboard",
+          component: require("@/views/dashboard/Level.vue").default
+        },
+        {
+          path: "chapters",
+          name: "dashboard-chapters",
+          component: require("@/views/dashboard/chapters/Chapters.vue").default
+        }
+      ]
     },
     {
       path: "*",
-      component: Home
+      redirect: "/"
     }
   ]
 });

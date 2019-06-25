@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="chapters-wrapper is-flex">
   <h1>Chapter Table Goes Here</h1>
   <table class="table is-bordered is-narrow is-striped">
     <thead>
@@ -46,6 +46,9 @@ export default {
 </script>
 
 <style>
+.chapters-wrapper {
+  flex-direction: column;
+}
 .table thead .table-head th {
   text-align: center;
   font-size: 1.1rem;

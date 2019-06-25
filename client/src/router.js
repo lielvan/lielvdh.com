@@ -36,6 +36,11 @@ const router = new Router({
           path: "chapters",
           name: "dashboard-chapters",
           component: require("@/views/dashboard/chapters/Chapters.vue").default
+        },
+        {
+          path: "motos",
+          name: "dashboard-motos",
+          component: require("@/views/dashboard/motos/Motos.vue").default
         }
       ]
     },

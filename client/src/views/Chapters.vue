@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import ChapterService from '../services/ChapterService';
 import ChapterComponent from '../components/ChapterComponent';
 
 export default {

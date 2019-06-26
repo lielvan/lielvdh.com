@@ -18,7 +18,6 @@
 
 <script>
 import Parallax from 'vue-parallaxy';
-import MotoService from '../services/MotoService';
 
 export default {
     name: "motos",

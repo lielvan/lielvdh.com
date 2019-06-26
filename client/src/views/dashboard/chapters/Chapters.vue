@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import ChapterService from '@/services/ChapterService';
-
 export default {
   name: 'dashboard-chapters',
   data() {

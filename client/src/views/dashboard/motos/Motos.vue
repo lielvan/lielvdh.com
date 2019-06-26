@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import MotoService from '@/services/MotoService';
-
 export default {
   name: 'dashboard-motos',
   data() {

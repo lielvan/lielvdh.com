@@ -3,7 +3,7 @@ import axios from 'axios';
 const url = '/api/chapters/';
 
 class ChapterService {
-  // Get Chapter
+  // Get Chapter - REMOVE
   static getChapters() {
     return new Promise(async (resolve, reject) => {
       try {

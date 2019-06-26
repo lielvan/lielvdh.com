@@ -35,7 +35,7 @@ export default {
       user: {}
     }
   },
-  mounted() {
+  created() {
     this.getUserData()
   },
   methods: {

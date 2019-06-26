@@ -3,7 +3,7 @@ import axios from 'axios';
 const url = '/api/motos/';
 
 class MotoService {
-  // Get Moto
+  // Get Moto - REMOVE
   static getMotos() {
     return new Promise(async (resolve, reject) => {
       try {

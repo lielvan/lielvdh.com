@@ -29,11 +29,13 @@ export default {
     }
   },
   async created() {
-    try {
-      this.chapters = await ChapterService.getChapters();
-    } catch(err) {
-      this.error = err.message;
-    }
+    this.$store.dispatch('getChapters')
+      .then((chapters) => {
+        this.chapters = chapters;
+      })
+      .catch(err => {
+        this.error = err.message;
+      })
   },
 }
 </script>

@@ -3,13 +3,13 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Chapters</p>
-        <p class="title">3,456</p>
+        <p class="title">{{ total_chapters }}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Motos</p>
-        <p class="title">123</p>
+        <p class="title">{{ total_motos }}</p>
       </div>
     </div>
   </nav>
@@ -17,7 +17,17 @@
 
 <script>
 export default {
-  name: 'dashboard-level'
+  name: 'dashboard-level',
+  data() {
+    return {
+      total_chapters: 0,
+      total_motos: 0
+    }
+  },
+  created() {
+    this.total_chapters = this.$store.state.totalChapters;
+    this.total_motos = this.$store.state.totalMotos;
+  },
 }
 </script>
 

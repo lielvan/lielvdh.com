@@ -32,11 +32,13 @@ export default {
       }
     },
     async created() {
-      try {
-        this.motos = await MotoService.getMotos();
-      } catch(err) {
+      this.$store.dispatch('getMotos')
+      .then((motos) => {
+        this.motos = motos;
+      })
+      .catch(err => {
         this.error = err.message;
-      }
+      })
     }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-<div class="motos-wrapper is-flex">
+<div class="dashboard-motos-wrapper is-flex">
   <h1>Moto Table Goes Here</h1>
   <table class="table is-bordered is-narrow is-striped">
     <thead>
@@ -32,17 +32,13 @@ export default {
     }
   },
   async created() {
-    try {
-      this.motos = await MotoService.getMotos();
-    } catch(err) {
-      this.error = err.message;
-    }
+    this.motos = this.$store.state.motos;
   }
 }
 </script>
 
 <style>
-.motos-wrapper {
+.dashboard-motos-wrapper {
   flex-direction: column;
 }
 .table thead .table-head th {

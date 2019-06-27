@@ -43,6 +43,31 @@ export default {
       }
     })
   },
+  // Add Chapter
+  async addChapter({commit}, chapter) {
+    return await axios.post(`${url}chapters`, chapter)
+            .then((response) => {
+              // debugger;
+              commit('add_chapter', response.data);
+            })
+            .catch(err => {})
+  },
+  // Edit Chapter
+  async editChapter({commit}, {id, chapter}) {
+    return await axios.put(`${url}chapters/${id}`, chapter)
+            .then((response) => {
+              commit('edit_chapter', response.data);
+            })
+            .catch(err => {})
+  },
+  // Delete Chapter
+  async deleteChapter({commit}, id) {
+    return axios.delete(`${url}chapters/${id}`)
+            .then((response) => {
+              commit('delete_chapter', response.data);
+            })
+            .catch(err => {})
+  },
   // Get Motos
   async getMotos({commit}) {
     return new Promise(async (resolve, reject) => {
@@ -60,5 +85,13 @@ export default {
         reject(err);
       }
     })
+  },
+  // Add Moto
+  async addMoto({commit}, moto) {
+    return await axios.post(`${url}motos`, moto)
+            .then((response) => {
+              commit('add_moto', response.data);
+            })
+            .catch(err => {})
   }
 }

@@ -23,9 +23,7 @@ const router = new Router({
     {
       path: "/dashboard",
       component: Dashboard,
-      meta: {
-        requiresAuth: true
-      },
+      meta: { requiresAuth: true },
       children: [
         {
           path: "/",
@@ -34,13 +32,45 @@ const router = new Router({
         },
         {
           path: "chapters",
-          name: "dashboard-chapters",
-          component: require("@/views/dashboard/chapters/Chapters.vue").default
+          component: require("@/views/dashboard/chapters/Chapters.vue").default,
+          children: [
+            {
+              path: "/",
+              name: "chapters",
+              component: require("@/views/dashboard/chapters/Table.vue").default
+            },
+            {
+              path: "new",
+              name: "new-chapter",
+              component: require("@/views/dashboard/chapters/Create.vue").default
+            },
+            {
+              path: ":id/edit",
+              name: "edit-chapter",
+              component: require("@/views/dashboard/chapters/Edit.vue").default
+            }
+          ]
         },
         {
           path: "motos",
-          name: "dashboard-motos",
-          component: require("@/views/dashboard/motos/Motos.vue").default
+          component: require("@/views/dashboard/motos/Motos.vue").default,
+          children: [
+            {
+              path: "/",
+              name: "motos",
+              component: require("@/views/dashboard/motos/Table.vue").default
+            },
+            {
+              path: "new",
+              name: "new-moto",
+              component: require("@/views/dashboard/motos/Create.vue").default
+            },
+            {
+              path: ":id/edit",
+              name: "edit-moto",
+              component: require("@/views/dashboard/motos/Edit.vue").default
+            },
+          ]
         }
       ]
     },

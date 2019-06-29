@@ -30,7 +30,7 @@ export default {
   methods: {
     logout() {
       // debugger;
-      this.$store.dispatch('logout')
+      this.$store.dispatch('auth/logout')
         .then(() => {
           this.$router.push({ name: 'Home' });
         })

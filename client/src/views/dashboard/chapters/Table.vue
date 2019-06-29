@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(chapter, index) in chapters" v-bind:item="chapter" v-bind:index="index" v-bind:key="chapter._id">
+        <tr v-for="(chapter, index) in chapters" v-bind:index="index" v-bind:key="chapter._id">
           <td>{{ chapter.title }}</td>
           <td>{{ chapter.subtitle }}</td>
           <td width="55%">{{ chapter.text }}</td>
@@ -30,24 +30,15 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'dashboard-chapters',
-  data() {
-    return {
-      chapters: [],
-      error: '',
-    }
-  },
-  mounted() {
-    this.chapters = this.$store.state.chapters;
+  computed: {
+    ...mapState('chapters', ['chapters']),
   },
   methods: {
-    deleteChapter(id) {
-      this.$store.dispatch('deleteChapter', id)
-        .then(() => {
-          this.chapters = this.$store.state.chapters;
-        })
-    }
+    ...mapActions('chapters', ['deleteChapter'])
   }
 }
 </script>

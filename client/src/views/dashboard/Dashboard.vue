@@ -22,6 +22,7 @@ import router from "@/router";
 import AuthService from '@/services/AuthService'
 import TopNav from '@/components/dashboard/TopNav';
 import SideBar from '@/components/dashboard/Sidebar';
+import { mapActions } from 'vuex'
 
 export default {
   name: "Dashboard",
@@ -36,8 +37,12 @@ export default {
   },
   created() {
     this.getUserData()
+    this.getChapters()
+    this.getMotos()
   },
   methods: {
+    ...mapActions('chapters', ['getChapters']),
+    ...mapActions('motos', ['getMotos']),
     async getUserData() {
       try {
         let response = await AuthService.getUser();

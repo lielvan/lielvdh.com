@@ -31,7 +31,7 @@
         <div class="column is-one-third">
           <label class="is-sr-only" for="text"></label>
           <div class="control">
-            <textarea class="textarea is-info is-medium" name="text" id="text" v-model="newChapter.text" placeholder="Text"></textarea>
+            <textarea class="textarea is-info is-small" name="text" id="text" rows="10" v-model="newChapter.text" placeholder="Text"></textarea>
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     createChapter() {
-      this.$store.dispatch('addChapter', this.newChapter)
+      this.$store.dispatch('chapters/addChapter', this.newChapter)
         .then(() => {
           this.$router.push('/dashboard/chapters')
         })

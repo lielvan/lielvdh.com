@@ -27,8 +27,8 @@ export default {
       inView: false,
     }
   },
-  async created() {
-    this.$store.dispatch('getChapters')
+  created() {
+    this.$store.dispatch('chapters/getChapters')
       .then((chapters) => {
         this.chapters = chapters;
       })

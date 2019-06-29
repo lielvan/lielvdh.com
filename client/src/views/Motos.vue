@@ -30,14 +30,14 @@ export default {
         error: ''
       }
     },
-    async created() {
-      this.$store.dispatch('getMotos')
-      .then((motos) => {
-        this.motos = motos;
-      })
-      .catch(err => {
-        this.error = err.message;
-      })
+    created() {
+      this.$store.dispatch('motos/getMotos')
+        .then((motos) => {
+          this.motos = motos;
+        })
+        .catch(err => {
+          this.error = err.message;
+        })
     }
 };
 </script>

@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     isLoggedIn: function() {
-      return this.$store.getters.isLoggedIn;
+      return this.$store.getters['auth/isLoggedIn'];
     }
   },
   methods: {
@@ -62,7 +62,7 @@ export default {
         password: this.password
       }
       // debugger;
-      this.$store.dispatch('login', data)
+      this.$store.dispatch('auth/login', data)
         .then(() => {
           this.resetForm();
           router.push('/dashboard');
@@ -73,7 +73,7 @@ export default {
     },
     logout() {
       // debugger;
-      this.$store.dispatch('logout')
+      this.$store.dispatch('auth/logout')
         .then(() => {
           router.push('/');
         })

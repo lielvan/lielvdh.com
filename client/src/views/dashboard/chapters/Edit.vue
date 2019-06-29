@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     editChapter() {
-      this.$store.dispatch('editChapter', { id: this.$route.params.id, chapter: this.chapter })
+      this.$store.dispatch('chapters/editChapter', { id: this.$route.params.id, chapter: this.chapter })
         .then(() => {
           this.$router.push('/dashboard/chapters')
         })

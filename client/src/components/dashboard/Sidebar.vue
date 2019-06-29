@@ -2,12 +2,12 @@
   <aside class="column is-2 is-paddingless">
     <div class="user">
       <p class="is-size-4">Welcome <strong>{{ user.username }}</strong></p>
-      <div class="field is-grouped is-grouped-centered">
+      <div class="field buttons are-small is-grouped is-grouped-centered">
         <div class="control">
-          <router-link class="button is-small is-info" :to="{ name: 'Home' }">Home</router-link>
+          <router-link class="button is-info" :to="{ name: 'Home' }">Home</router-link>
         </div>
         <div class="control">
-          <button class="button is-small is-info" v-on:click="logout">Logout</button>
+          <button class="button is-info" v-on:click="logout">Logout</button>
         </div>
       </div>
     </div>

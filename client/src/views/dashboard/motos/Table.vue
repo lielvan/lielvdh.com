@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard-motos-wrapper is-flex">
-    <h1>Moto Table Goes Here</h1>
+    <div class="table-top is-flex">
+      <h1 class="is-flex is-size-4">Motos</h1>
+      <router-link class="button is-flex is-success" :to="{ name: 'new-moto' }">New</router-link>
+    </div>
     <table class="table is-bordered is-narrow is-striped">
       <thead>
         <tr class="table-head">
@@ -16,8 +19,10 @@
           <td>{{ moto.text }}</td>
           <td>{{ moto.createdAt }}</td>
           <td>
-            <router-link :to="{ name: 'edit-moto', params: { id: moto._id }}">Edit</router-link>
-            <button @click="deleteMoto(moto._id)">Delete</button>
+            <div class="buttons are-small">
+              <router-link class="button is-warning" :to="{ name: 'edit-moto', params: { id: moto._id }}">Edit</router-link>
+              <button class="button is-danger" @click="deleteMoto(moto._id)">Delete</button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -42,6 +47,10 @@ export default {
 <style>
 .dashboard-motos-wrapper {
   flex-direction: column;
+}
+.table-top {
+  justify-content: space-between;
+  margin: 1rem 0;
 }
 .table thead .table-head th {
   text-align: center;

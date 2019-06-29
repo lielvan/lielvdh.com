@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Chapter = require('../../models/chapter');
+const middleware = require('../../middleware');
 
 // INDEX - Get all chapters
 router.get('/', async (req, res) => {
@@ -9,7 +10,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add a chapter
-router.post('/', async (req, res) => {
+router.post('/', middleware.isLoggedIn, async (req, res) => {
   const newChapter = {
     title: req.body.title,
     title_link: req.body.title_link,
@@ -42,7 +43,7 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update chapter
-router.put('/:id', async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, async (req, res) => {
   console.log(`Request Body: ${req.body.title}`);
   console.log(`Param ID: ${req.params.id}`);
   const chapter = {
@@ -67,7 +68,7 @@ router.put('/:id', async (req, res) => {
 
 
 // DESTROY - Delete a chapter
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   await Chapter.findOneAndDelete({ _id: req.params.id }, (err, chapterDeleted) => {
     if(err) {
       console.log(err);

@@ -21,7 +21,7 @@ const indexRoutes    = require('./routes/api/index'),
       motosRoutes    = require('./routes/api/motos');
 
 // MongoDB Connection
-const url = process.env.DATABASE_URL || "mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh?retryWrites=true&w=majority"
+const url = process.env.DATABASE_URL || "mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh_dev?retryWrites=true&w=majority"
 mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true,

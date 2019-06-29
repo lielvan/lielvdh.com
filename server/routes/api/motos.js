@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Moto = require('../../models/moto');
-
+const middleware = require('../../middleware');
 
 // INDEX - Show all motos
 router.get('/', async (req, res) => {
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add new moto
-router.post('/', async (req, res) => {
+router.post('/', middleware.isLoggedIn, async (req, res) => {
   const newMoto = {
     text: req.body.text,
     createdAt: new Date()
@@ -36,7 +36,7 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update moto
-router.put('/:id', async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, async (req, res) => {
   console.log(`Request Body: ${req.body.text}`);
   console.log(`Param ID: ${req.params.id}`);
   const moto = {
@@ -54,7 +54,7 @@ router.put('/:id', async (req, res) => {
 })
 
 // DESTROY - Delete a moto
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   await Moto.findOneAndDelete({ _id: req.params.id }, (err, motoDeleted) => {
     if(err) {
       console.log(err);

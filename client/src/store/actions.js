@@ -25,6 +25,9 @@ export default {
     commit('logout');
     await axios.get(`${url}/logout`);
   },
+  // ********************
+  // CHAPTERS
+  // ********************
   // Get Chapters
   async getChapters({commit}) {
     return new Promise(async (resolve, reject) => {
@@ -68,6 +71,9 @@ export default {
             })
             .catch(err => {})
   },
+  // ********************
+  // MOTOS
+  // ********************
   // Get Motos
   async getMotos({commit}) {
     return new Promise(async (resolve, reject) => {
@@ -93,5 +99,21 @@ export default {
               commit('add_moto', response.data);
             })
             .catch(err => {})
-  }
+  },
+  // Edit Moto
+  async editMoto({commit}, {id, moto}) {
+    return await axios.put(`${url}motos/${id}`, moto)
+            .then((response) => {
+              commit('edit_moto', response.data);
+            })
+            .catch(err => {})
+  },
+  // Delete Moto
+  async deleteMoto({commit}, id) {
+    return axios.delete(`${url}motos/${id}`)
+            .then((response) => {
+              commit('delete_moto', response.data);
+            })
+            .catch(err => {})
+  },
 }

@@ -19,10 +19,39 @@ router.post('/', async (req, res) => {
     if(err) {
       console.log(err);
     } else {
-      res.status(201).send();
+      res.status(201).send(moto);
     }
   });
 });
+
+// EDIT - send moto to edit form
+router.get('/:id/edit', (req, res) => {
+  Moto.findById(req.params.id, (err, foundMoto) => {
+    if(err) {
+      console.log(err);
+    }
+    console.log(`Found Moto: ${foundMoto}`);
+    res.send(foundMoto);
+  })
+});
+
+// UDPATE - Update moto
+router.put('/:id', async (req, res) => {
+  console.log(`Request Body: ${req.body.text}`);
+  console.log(`Param ID: ${req.params.id}`);
+  const moto = {
+    text: req.body.text
+  }
+  await Moto.findByIdAndUpdate({ _id: req.params.id }, moto, {new: true}, (err, updatedMoto) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      console.log(`Updated Moto: ${updatedMoto}`);
+      res.status(200).send(updatedMoto);
+    }
+  })
+})
 
 // DESTROY - Delete a moto
 router.delete('/:id', async (req, res) => {

@@ -41,6 +41,13 @@ export default {
   add_moto(state, moto) {
     state.totalMotos = state.motos.push(moto)
   },
+  edit_moto(state, moto) {
+    state.motos.splice(state.motos.indexOf(moto._id), 1, moto)
+  },
+  delete_moto(state, moto) {
+    state.motos.splice(state.motos.indexOf(moto._id), 1)
+    state.totalMotos -= 1;
+  },
   total_motos(state, length) {
     state.totalMotos = length
   }

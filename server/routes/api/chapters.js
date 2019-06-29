@@ -39,7 +39,7 @@ router.get('/:id/edit', (req, res) => {
     console.log(`Found Chapter: ${foundChapter}`);
     res.send(foundChapter);
   })
-})
+});
 
 // UDPATE - Update chapter
 router.put('/:id', async (req, res) => {
@@ -63,7 +63,7 @@ router.put('/:id', async (req, res) => {
       res.status(200).send(updatedChapter);
     }
   })
-})
+});
 
 
 // DESTROY - Delete a chapter

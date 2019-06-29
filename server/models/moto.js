@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var motoSchema = new mongoose.Schema({
     text: String,
-    createAt: {
+    createdAt: {
         type: Date,
         default: Date.now
     }

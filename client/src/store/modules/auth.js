@@ -18,7 +18,7 @@ const actions = {
     login({commit}, data) {
       commit('auth_request');
       return new Promise((resolve, reject) => {
-        axios.post(`${url}/login`, data, { withCredentials: true })
+        axios.post(`${url}login`, data, { withCredentials: true })
           .then((response) => {
             const user = response.data.user;
             resolve(user);
@@ -34,7 +34,7 @@ const actions = {
     // Logout
     async logout({commit}) {
       commit('logout');
-      await axios.get(`${url}/logout`);
+      await axios.get(`${url}logout`);
     },
 }
 

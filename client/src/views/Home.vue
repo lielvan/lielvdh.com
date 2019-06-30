@@ -12,7 +12,7 @@
         <div class="navbar-start">
           <a class="navbar-item" v-scroll-to="'#head'">Home</a>
           <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
-          <a class="navbar-item" v-scroll-to="'#books'">Hobbies</a>
+          <!-- <a class="navbar-item" v-scroll-to="'#books'">Hobbies</a> -->
           <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>
           <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
         </div>

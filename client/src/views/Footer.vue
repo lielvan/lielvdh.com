@@ -3,16 +3,16 @@
     <div class="hero-body">
       <div class="container">
         <div class="hidden" v-fadein="'showElement'">
-          <p>Let's Touch Base. Best way through <a class="linkedin" href="https://www.linkedin.com/in/liel-van-der-hoeven">LinkedIn</a>, <a class="facebook" href="https://www.facebook.com/lielvan">Facebook</a> or <a class="email" href="mailto:lielvdh@gmail.com">Email</a></p>
-          <p>Currently open to new opportunities within the realm of the evergrowing tech world</p>
+          <p class="is-size-6-mobile touch-base">Let's Touch Base. Best way through <a class="linkedin" href="https://www.linkedin.com/in/liel-van-der-hoeven">LinkedIn</a>, <a class="facebook" href="https://www.facebook.com/lielvan">Facebook</a> or <a class="email" href="mailto:lielvdh@gmail.com">Email</a></p>
+          <p class="is-size-7-mobile">Currently open to new opportunities within the realm of the evergrowing tech world</p>
   
           <div class="cv-download">
             <a href="/doc/LielVanDerHoeven-CV.pdf" target="_blank">My Curriculum Vitae</a>
           </div>
           
           <div class="footer-rights">
-            <p>&copy; <strong>Liel van der Hoeven</strong>. All Rights Reserved.</p>
-            <p>Proudly created using the <strong>VENM</strong> stack. <img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></p>
+            <p class="is-size-7-mobile">&copy; <strong>Liel van der Hoeven</strong>. All Rights Reserved.</p>
+            <p class="is-size-7-mobile">Proudly created using the <strong>VENM</strong> stack. <img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></p>
           </div>
 
         </div>
@@ -39,7 +39,6 @@ a.linkedin, a.facebook, a.email {
 a.linkedin:hover, a.facebook:hover, a.email:hover {
   color:#3273dc;
 }
-
 .container #mini_computer {
   position: relative;
   top: 5px;
@@ -79,5 +78,11 @@ a.linkedin:hover, a.facebook:hover, a.email:hover {
   padding: 1rem 0;
   font-size: 0.9rem;
   border-top: 1px solid hsla(0,0%,100%,.2);
+}
+
+@media only screen and (max-width: 450px) {
+  .touch-base {
+    margin-bottom: 0.8rem;
+  }
 }
 </style>

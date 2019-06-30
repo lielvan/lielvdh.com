@@ -10,20 +10,12 @@
         </ul>
       </div>
     </div>
-    <parallax :speed-factor="0.3" :fixed="true">
-      <img src="/images/lake_wallpaper.jpg" alt="lake image">
-    </parallax>
   </section>
 </template>
 
 <script>
-import Parallax from 'vue-parallaxy';
-
 export default {
     name: "motos",
-    components: {
-        Parallax,
-    },
     data() {
       return {
         motos: [],
@@ -47,29 +39,16 @@ export default {
 
 #motos {
     position: relative;
-}
-.motos-wrapper {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 165px;
-    margin-right: auto;
-    margin-left: auto;
-}
-#motos .Masthead {
-    min-height: 55vh;
+    background-image: url("/images/lake_wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 #motos ul {
-    /* font-weight: 900; */
     font-family: 'Audiowide';
     font-size: 23px;
 }
 ul li {
     padding: 8px 0;
-}
-@media only screen and (min-width: 400px) {
-  #motos ul {
-    margin-top: 65px;
-  }
 }
 </style>

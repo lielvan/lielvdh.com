@@ -6,12 +6,12 @@
             <h4 id="chapter-subtitle" class="subtitle is-size-6-touch">{{ chapter.subtitle }}</h4>
 
             <div class="columns is-multiline is-mobile">
-              <div class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop image">
-                <img :src="chapter.image" alt="Chapter Image Unavailable">
-              </div>
-
               <div class="column content has-text-left">
                 <p v-html="chapter.text" class="is-size-7-mobile is-size-6-tablet">{{ chapter.text }}</p>
+              </div>
+
+              <div class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop image">
+                <img :src="chapter.image" alt="Chapter Image Unavailable">
               </div>
 
               <div class="column is-paddingless is-full">
@@ -41,7 +41,7 @@ export default {
 <style scoped>
 #chapter {
   box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
-  border-radius: 20px 100px;
+  border-radius: 20px 150px;
 }
 
 .image {
@@ -70,6 +70,9 @@ export default {
 @media only screen and (max-width: 600px) {
   .box {
     padding: 0.75rem;
+  }
+  #chapter {
+    border-radius: 20px 100px;
   }
 }
 </style>

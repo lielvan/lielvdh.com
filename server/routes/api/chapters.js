@@ -6,7 +6,7 @@ const middleware = require('../../middleware');
 // INDEX - Get all chapters
 router.get('/', async (req, res) => {
   const chapters = await Chapter.find({});
-  res.send(chapters);
+  res.status(200).send(chapters);
 });
 
 // CREATE - Add a chapter

@@ -10,10 +10,11 @@
                 <p v-html="chapter.text" class="is-size-7-mobile is-size-6-tablet">{{ chapter.text }}</p>
               </div>
 
-              <div class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop image">
+              <div class="column is-one-quarter-mobile is-one-quarter-tablet is-one-quarter-desktop image">
                 <img :src="chapter.image" alt="Chapter Image Unavailable">
               </div>
-
+            </div>
+            <div class="columns">
               <div class="column is-paddingless is-full">
                 <div class="chapter-time has-text-right is-size-7-mobile is-size-6-tablet">
                   <span>{{ chapter.location }}</span>
@@ -67,12 +68,18 @@ export default {
     display: block;
     padding: 0px 5px;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 400px) {
   .box {
     padding: 0.75rem;
   }
   #chapter {
     border-radius: 20px 100px;
+  }
+  .columns.is-mobile {
+    flex-direction: column-reverse;
+  }
+  div.column.image {
+    padding: 0;
   }
 }
 </style>

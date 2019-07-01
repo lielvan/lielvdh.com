@@ -75,14 +75,6 @@ h1 span, .section-title {
   cursor: pointer;
 }
 
-.slide-fade-enter-active {
-  transition: all 2s ease;
-}
-.slide-fade-enter {
-  transform: translateX(35px);
-  opacity: 0;
-}
-
 /* Custom Fade In Transition */
 .hidden {
   opacity: 0;

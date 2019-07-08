@@ -23,6 +23,7 @@ export default {
 h1.title {
   display: inline-block;
   width: fit-content;
+  margin-top: 0;
   margin-right: auto;
   margin-left: auto;
   padding: 10px 0;

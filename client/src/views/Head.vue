@@ -3,7 +3,7 @@
       <div class="hero-body">
         <div class="container has-text-centered">
           <div class="is-loading hidden" v-fadein="'showElement'">
-            <h1 class="title is-size-1-desktop"><span>Hey, I'm</span><br>Liel van der Hoeven</h1>
+            <h1 class="title is-size-1-desktop" style="margin-top: 0;"><span>Hey, I'm</span><br>Liel van der Hoeven</h1>
           </div>
         </div>
       </div>

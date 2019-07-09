@@ -9,18 +9,18 @@ const express  = require('express'),
 //*********************************
 
 // Register
-router.post('/register', async (req, res) => {
-  const newUser = new User({username: req.body.username});
-  await User.register(newUser, req.body.password, (err, user) => {
-    if(err) {
-      console.log(err);
-    } else {
-      passport.authenticate("local")(req, res, () => {
-        res.sendStatus(200);
-      });
-    }
-  })
-});
+// router.post('/register', async (req, res) => {
+//   const newUser = new User({username: req.body.username});
+//   await User.register(newUser, req.body.password, (err, user) => {
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       passport.authenticate("local")(req, res, () => {
+//         res.sendStatus(200);
+//       });
+//     }
+//   })
+// });
 
 // Login
 router.post('/login', (req, res, next) => {

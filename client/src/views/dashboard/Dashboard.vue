@@ -38,10 +38,12 @@ export default {
   created() {
     this.getUserData()
     this.getChapters()
+    this.getBooks()
     this.getMotos()
   },
   methods: {
     ...mapActions('chapters', ['getChapters']),
+    ...mapActions('books', ['getBooks']),
     ...mapActions('motos', ['getMotos']),
     async getUserData() {
       try {

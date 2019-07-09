@@ -18,6 +18,7 @@ const User = require('./models/user');
 // ROUTES
 const indexRoutes    = require('./routes/api/index'),
       chaptersRoutes = require('./routes/api/chapters'),
+      booksRoutes    = require('./routes/api/books'),
       motosRoutes    = require('./routes/api/motos');
 
 // MongoDB Connection
@@ -68,6 +69,7 @@ app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
   }
 });
 app.use('/api/chapters', chaptersRoutes);
+app.use('/api/books', booksRoutes);
 app.use('/api/motos', motosRoutes);
 
 

@@ -52,6 +52,27 @@ const router = new Router({
           ]
         },
         {
+          path: "books",
+          component: require("@/views/dashboard/books/Books.vue").default,
+          children: [
+            {
+              path: "/",
+              name: "books",
+              component: require("@/views/dashboard/books/Table.vue").default
+            },
+            {
+              path: "new",
+              name: "new-book",
+              component: require("@/views/dashboard/books/Create.vue").default
+            },
+            {
+              path: ":id/edit",
+              name: "edit-book",
+              component: require("@/views/dashboard/books/Edit.vue").default
+            }
+          ]
+        },
+        {
           path: "motos",
           component: require("@/views/dashboard/motos/Motos.vue").default,
           children: [

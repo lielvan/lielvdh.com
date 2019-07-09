@@ -17,6 +17,7 @@
       <ul class="menu-list">
         <li><router-link :to="{ path: '/dashboard' }">Dashboard</router-link></li>
         <li><router-link :to="{ path: '/dashboard/chapters' }">Chapters</router-link></li>
+        <li><router-link :to="{ path: '/dashboard/books' }">Books</router-link></li>
         <li><router-link :to="{ path: '/dashboard/motos' }">Motos</router-link></li>
       </ul>
     </nav>

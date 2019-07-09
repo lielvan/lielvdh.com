@@ -11,12 +11,14 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInstagram, faFacebookF, faLinkedinIn, faGithubAlt } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCookies from 'vue-cookies';
+import VueCarousel from 'vue-carousel';
 
 library.add(faInstagram, faFacebookF, faLinkedinIn, faGithubAlt);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(vueScrollTo);
 Vue.use(VueCookies);
+Vue.use(VueCarousel);
 VueCookies.config('7d')
 
 Vue.config.productionTip = false

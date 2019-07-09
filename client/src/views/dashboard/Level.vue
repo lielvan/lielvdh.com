@@ -8,6 +8,12 @@
     </div>
     <div class="level-item has-text-centered">
       <div>
+        <p class="heading">Books</p>
+        <p class="title">{{ totalBooks }}</p>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
         <p class="heading">Motos</p>
         <p class="title">{{ totalMotos }}</p>
       </div>
@@ -21,6 +27,7 @@ export default {
   name: 'dashboard-level',
   computed: {
     ...mapState('chapters', ['totalChapters']),
+    ...mapState('books', ['totalBooks']),
     ...mapState('motos', ['totalMotos'])
   },
 }

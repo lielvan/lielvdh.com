@@ -15,22 +15,22 @@
 
 <script>
 export default {
-    name: "motos",
-    data() {
-      return {
-        motos: [],
-        error: ''
-      }
-    },
-    created() {
-      this.$store.dispatch('motos/getMotos')
-        .then((motos) => {
-          this.motos = motos;
-        })
-        .catch(err => {
-          this.error = err.message;
-        })
+  name: "motos",
+  data() {
+    return {
+      motos: [],
+      error: ''
     }
+  },
+  created() {
+    this.$store.dispatch('motos/getMotos')
+      .then((motos) => {
+        this.motos = motos;
+      })
+      .catch(err => {
+        this.error = err.message;
+      })
+  }
 };
 </script>
 

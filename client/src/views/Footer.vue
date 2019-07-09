@@ -2,7 +2,7 @@
   <section id="footer" class="hero is-primary is-bold is-small">
     <div class="hero-body">
       <div class="container">
-        <div class="hidden" v-fadein="'showElement'">
+        <div class="hidden-fade-in-top" v-fadein="'showElement'">
           <p class="is-size-6-mobile touch-base">Let's Touch Base. Best way through <a class="linkedin" href="https://www.linkedin.com/in/liel-van-der-hoeven">LinkedIn</a>, <a class="facebook" href="https://www.facebook.com/lielvan">Facebook</a> or <a class="email" href="mailto:lielvdh@gmail.com">Email</a></p>
           <p class="is-size-7-mobile">Currently open to new opportunities within the realm of the evergrowing tech world</p>
   

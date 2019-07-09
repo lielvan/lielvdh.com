@@ -66,26 +66,12 @@ body{
   margin: 0;
   padding: 0;
 }
-
 h1 span, .section-title {
   font-family: 'Architects Daughter';
 }
-
 .navbar-nav .nav-link {
   cursor: pointer;
 }
-
-/* Custom Fade In Transition */
-.hidden {
-  opacity: 0;
-  transform: translateX(35px);
-}
-.showElement {
-  opacity: 1;
-  transform: translate(0, 0);
-  transition: all 2s ease;
-}
-
 h2.title, h1.title {
     width: fit-content;
     margin-right: auto;

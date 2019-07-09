@@ -1,11 +1,11 @@
 <template>
   <section id="motos" class="hero">
-    <h2 class="title is-2 hidden section-title" v-fadein="'showElement'">Few words <br> I Live By</h2>
+    <h2 class="title is-2 hidden-fade-in-left section-title" v-fadein="'showElement'">Few words <br> I Live By</h2>
     <div class="motos-wrapper hero-body">
       <div class="container">
         <ul>
           <li v-for="(moto, index) in motos" :item="moto" :index="index" :key="moto._id">
-              <p class="is-size-6-mobile is-size-5-tablet is-size-4-desktop hidden" v-fadein="'showElement'">{{ moto.text }}</p>
+              <p class="is-size-6-mobile is-size-5-tablet is-size-4-desktop hidden-fade-in-bottom" v-fadein="'showElement'">{{ moto.text }}</p>
           </li>
         </ul>
       </div>

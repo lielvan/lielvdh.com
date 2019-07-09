@@ -2,7 +2,7 @@
     <section id="head" class="hero is-dark is-fullheight">
       <div class="hero-body">
         <div class="container has-text-centered">
-          <div class="is-loading hidden" v-fadein="'showElement'">
+          <div class="is-loading hidden-fade-in-left" v-fadein="'showElement'">
             <h1 class="title is-size-1-desktop" style="margin-top: 0;"><span>Hey, I'm</span><br>Liel van der Hoeven</h1>
           </div>
         </div>

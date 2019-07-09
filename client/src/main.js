@@ -5,6 +5,7 @@ import store from './store';
 import vueScrollTo from 'vue-scrollto';
 import 'bulma/css/bulma.css';
 import '../src/assets/js/scripts';
+import '../src/assets/css/app.css';
 import fadeIn from '../src/assets/js/fade-in';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faInstagram, faFacebookF, faLinkedinIn, faGithubAlt } from '@fortawesome/free-brands-svg-icons';

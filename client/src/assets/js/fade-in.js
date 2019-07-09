@@ -6,7 +6,7 @@ export default {
       let inView = (
         rect.width > 0 &&
         rect.height > 0 &&
-        rect.top <= window.innerHeight - 125 //125px top offset
+        rect.top <= window.innerHeight - 135 //125px top offset
         // rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
       )
       if (inView) {

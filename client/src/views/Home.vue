@@ -35,8 +35,11 @@
 
     <Head />
     <Chapters />
-    <Books />
     <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
+    <section class="hero">
+      <h1 class="title is-2 hidden-fade-in-left section-title" v-fadein="'showElement'">How I Waste <br> My Spare Time</h1>
+      <Books />
+    </section>
     <Motos />
     <Footer />
     

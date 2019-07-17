@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <carousel :autoplay="false" :perPageCustom="[[768, 3], [1215, 4], [1407, 5]] " class="hidden-fade-in-top" v-fadein="'showElement'">
+    <carousel :autoplay="true" :autoplayHoverPause="true" :perPageCustom="[[768, 3], [1215, 4], [1407, 5]] " class="hidden-fade-in-top" v-fadein="'showElement'">
       <slide v-for="(book, index) in books" :item="book" :index="index" :key="book._id">
         <div class="book-img-wrapper">
           <img class="book-img" :src="book.image" alt="Book Image Unavailable">

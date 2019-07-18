@@ -12,7 +12,7 @@
         <div class="navbar-start">
           <a class="navbar-item" v-scroll-to="'#head'">Home</a>
           <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
-          <!-- <a class="navbar-item" v-scroll-to="'#books'">Hobbies</a> -->
+          <a class="navbar-item" v-scroll-to="'#hobbies'">Hobbies</a>
           <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>
           <a class="navbar-item" v-scroll-to="'#footer'">Contact</a>
         </div>
@@ -36,7 +36,7 @@
     <Head />
     <Chapters />
     <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
-    <section class="hero">
+    <section id="hobbies" class="hero">
       <h1 class="title is-size-2-desktop hidden-fade-in-left section-title" v-fadein="'showElement'">How I Waste <br> My Spare Time</h1>
       <Books />
     </section>

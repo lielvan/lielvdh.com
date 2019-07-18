@@ -151,7 +151,7 @@ export default {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
-.book-img-wrapper:hover .book-info {
+.book-img-wrapper:hover .book-info:active {
     opacity: 1;
 }
 #book-description {

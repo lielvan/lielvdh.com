@@ -151,7 +151,7 @@ export default {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
-.book-img-wrapper:hover .book-info:active {
+.book-img-wrapper:hover .book-info {
     opacity: 1;
 }
 #book-description {
@@ -159,6 +159,9 @@ export default {
   line-height: 1.5rem;
 }
 @media only screen and (max-width: 320px) {
+  .reading-list-text {
+    opacity: 1;
+  }
   .reading-list-img {
     height: 145px;
     width: 145px;
@@ -177,6 +180,9 @@ export default {
   }
 }
 @media only screen and (min-width: 321px) and (max-width: 424px) {
+  .reading-list-text {
+    opacity: 1;
+  }
   .book-img {
     width: 150px;
   }
@@ -192,6 +198,9 @@ export default {
 
 }
 @media only screen and (min-width: 425px) and (max-width: 1023px) {
+  .reading-list-text {
+    opacity: 1;
+  }
   .book-img {
     width: 180px;
   }

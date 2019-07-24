@@ -5,7 +5,10 @@ const middleware = require('../../middleware');
 
 // INDEX - Show all motos
 router.get('/', async (req, res) => {
-  const motos = await Moto.find({});
+  let motos = await Moto.find({});
+  motos.sort((a, b) => {
+    return a.text.length - b.text.length;
+  });
   res.send(motos);
 });
 

@@ -12,8 +12,9 @@
           
           <div class="footer-rights">
             <p class="is-size-7-mobile">&copy; <strong>Liel van der Hoeven</strong>. All Rights Reserved.</p>
-            <p class="is-size-7-mobile">Proudly created using the <strong>VENM</strong> stack. <img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></p>
+            <p class="is-size-7-mobile">Proudly created using the <strong>VENM</strong> stack. <a id="rumble" href="#" @click.prevent="handlePlay()"><img id="mini_computer" src="/images/mini_computer.svg" alt="tech"></a></p>
           </div>
+          <p>{{ this.error }}</p>
 
         </div>
       </div>
@@ -24,6 +25,30 @@
 <script>
 export default {
     name: "Footer",
+    data() {
+      return {
+        audio: new Audio("/sound/Lets_Get_Ready_To_Rumble.mp3"),
+        error: ''
+      }
+    },
+    methods: {
+      async playRumble() {
+        try {
+          await this.audio.play();
+          console.log("LETS RUMBLE!!!");
+        } catch(err) {
+          this.error = err;
+        }
+      },
+      handlePlay() {
+        if(this.audio.paused) {
+          this.playRumble();
+        } else {
+          this.audio.pause();
+          console.log("Rumble Paused...");
+        }
+      }
+    }
 };
 </script>
 
@@ -79,7 +104,9 @@ a.linkedin:hover, a.facebook:hover, a.email:hover {
   font-size: 0.9rem;
   border-top: 1px solid hsla(0,0%,100%,.2);
 }
-
+#rumble {
+  cursor: default;
+}
 @media only screen and (max-width: 450px) {
   .touch-base {
     margin-bottom: 0.8rem;

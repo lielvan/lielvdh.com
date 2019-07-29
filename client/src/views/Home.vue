@@ -34,6 +34,7 @@
     </nav>
 
     <Head />
+    <Projects />
     <Chapters />
     <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
     <section id="hobbies" class="hero">
@@ -48,6 +49,7 @@
 
 <script>
 import Head from "@/views/Head.vue";
+import Projects from "@/views/Projects.vue";
 import Chapters from "@/views/Chapters.vue";
 import Books from "@/views/Books.vue";
 import Motos from "@/views/Motos.vue";
@@ -57,6 +59,7 @@ export default {
   name: 'home',
   components: {
     Head,
+    Projects,
     Chapters,
     Books,
     Motos,

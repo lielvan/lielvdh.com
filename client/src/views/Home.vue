@@ -11,6 +11,7 @@
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
           <a class="navbar-item" v-scroll-to="'#head'">Home</a>
+          <a class="navbar-item" v-scroll-to="'#projects'">Projects</a>
           <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
           <a class="navbar-item" v-scroll-to="'#hobbies'">Hobbies</a>
           <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>

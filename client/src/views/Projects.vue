@@ -4,25 +4,22 @@
     <div class="hero-body projects-wrapper">
       <div class="container">
 
-        <div class="columns project-wrapper">
-          <div class="column is-full-touch is-one-third-desktop project-text">
-            <p class="is-size-6-touch">Rat-Maze project was the final project for my Java class. The purpose of it was to create a server side (Maze) and a client side (Rat) and be able to connect the two through a TCP/IP protocol. The github repository includes the Java classes used in the project, as well as the Java executables.</p>
-          </div>
-          <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
-            <img class="project-code right-side" src="/images/projects/Rat-Maze_Code.jpg" alt="Project Image Unavailable">
-            <div class="gif-wrapper">
-              <img class="project-gif" src="/images/projects/Rat-Maze.gif" alt="Project Image Unavailable">
+        <div class="columns project-wrapper" 
+          v-for="(project, index) in projects" 
+          v-bind:item="project" v-bind:index="index" v-bind:key="project._id" 
+          :class="[index % 2 !== 0 ? 'project-reverse': '']"
+        >
+          <div class="column is-full-mobile is-two-thirds-tablet is-one-third-desktop project-text is-flex">
+            <p class="is-size-6-touch"><span class="project-title is-size-4">{{ project.title }}</span> {{ project.text }}</p>
+            <div class="project-footer is-flex">
+              <p><span>Language:</span> &nbsp; <span class="is-italic is-capitalized has-text-weight-bold">{{ project.language }}</span></p>
+              <a :href="project.github_link"><span class="icon fas fa-lg"><font-awesome-icon :icon="['fab', 'github-alt']"></font-awesome-icon></span> GitHub Repository</a>
             </div>
           </div>
-        </div>
-        <div class="columns project-wrapper project-reverse">
-          <div class="column is-full-touch is-one-third-desktop project-text">
-            <p class="is-size-6-touch">Sudoku Solver project was a part of my Artificial Intelligence class. The program reads lines of ints, each representing a different sudoku, it also assigns an ID to each sudoku in the .txt file. Then it uses the backtracking algorithm to solve the sudoku and print it to the console. This project was a fun challenge that taught me a lot about the backtracking algorithm and its uses.</p>
-          </div>
           <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
-            <img class="project-code left-side" src="/images/projects/Sudoku-Solver_Code.jpg" alt="Project Image Unavailable">
+            <img class="project-code right-side" :src="project.code_image" alt="Project Image Unavailable">
             <div class="gif-wrapper">
-              <img class="project-gif" src="/images/projects/Sudoku-Solver.gif" alt="Project Image Unavailable">
+              <img class="project-gif" :src="project.gif_image" alt="Project Image Unavailable">
             </div>
           </div>
         </div>
@@ -36,7 +33,21 @@
 <script>
 export default {
   name: "Projects",
-
+  data() {
+    return {
+      projects: [],
+      error: ''
+    }
+  },
+  created() {
+    this.$store.dispatch('projects/getProjects')
+      .then((projects) => {
+        this.projects = projects;
+      })
+      .catch(err => {
+        this.error = err.message;
+      })
+  },
 }
 </script>
 
@@ -56,9 +67,38 @@ export default {
   flex-direction: row-reverse;
 }
 #projects .project-text {
+  line-height: 1.85rem;
+  flex-direction: column;
+}
+.project-text span.project-title {
+  display: inline-block;
+  background-color: blue;
+  color: white;
+  padding: 0 4px;
+  transform: skew(10deg, 0deg);
+}
+.project-text .project-footer {
+  flex: auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 10px 5px;
+}
+.project-text .project-footer a {
   display: flex;
   align-items: center;
-  line-height: 2.1;
+  width: max-content;
+  height: fit-content;
+}
+.project-text .project-footer a span {
+  margin-right: 5px;
+}
+.project-footer p span:first-child {
+  display: inline-block;
+  background-color: blue;
+  color: white;
+  padding: 0 5px;
+  transform: skew(10deg, 0deg);
 }
 .project-reverse .project-images .gif-wrapper {
   left: -50px;
@@ -97,6 +137,13 @@ export default {
     margin-top: 8rem;
     margin-bottom: 12rem;
   }
+  #projects .project-text {
+    align-self: center;
+  }
+  .project-text .project-footer {
+    align-items: center;
+    padding-top: 24px;
+  }
   .gif-wrapper {
     height: 225px;
     width: 411px;
@@ -113,9 +160,6 @@ export default {
   .project-images {
     justify-content: center;
   }
-}
-@media only screen and (min-width: 425px) and (max-width: 1023px) {
-
 }
 @media only screen and (max-width: 768px) {
   #projects .project-wrapper { 
@@ -139,7 +183,7 @@ export default {
     margin-bottom: 8rem;
   }
   #projects .project-text {
-    line-height: 1.5;
+    line-height: 1.5rem;
   }
   .gif-wrapper {
     height: 200px;

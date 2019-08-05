@@ -114,7 +114,14 @@ export default {
     justify-content: center;
   }
 }
+@media only screen and (min-width: 425px) and (max-width: 1023px) {
+
+}
 @media only screen and (max-width: 768px) {
+  #projects .project-wrapper { 
+    margin-top: 0;
+    margin-bottom: 6rem;
+  }
   .gif-wrapper {
     height: 200px;
     width: 80%;
@@ -127,6 +134,13 @@ export default {
   }
 }
 @media only screen and (max-width: 425px) {
+  #projects .project-wrapper { 
+    margin-top: 0;
+    margin-bottom: 8rem;
+  }
+  #projects .project-text {
+    line-height: 1.5;
+  }
   .gif-wrapper {
     height: 200px;
     width: 100%;

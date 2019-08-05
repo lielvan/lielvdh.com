@@ -31,6 +31,27 @@ const router = new Router({
           component: require("@/views/dashboard/Level.vue").default
         },
         {
+          path: "projects",
+          component: require("@/views/dashboard/projects/Projects.vue").default,
+          children: [
+            {
+              path: "/",
+              name: "projects",
+              component: require("@/views/dashboard/projects/Table.vue").default
+            },
+            {
+              path: "new",
+              name: "new-project",
+              component: require("@/views/dashboard/projects/Create.vue").default
+            },
+            {
+              path: ":id/edit",
+              name: "edit-project",
+              component: require("@/views/dashboard/projects/Edit.vue").default
+            }
+          ]
+        },
+        {
           path: "chapters",
           component: require("@/views/dashboard/chapters/Chapters.vue").default,
           children: [

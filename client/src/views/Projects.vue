@@ -69,10 +69,11 @@ export default {
 #projects .project-text {
   line-height: 1.85rem;
   flex-direction: column;
+  text-align: start;
 }
 .project-text span.project-title {
   display: inline-block;
-  background-color: blue;
+  background-color: #00d1b2;
   color: white;
   padding: 0 4px;
   transform: skew(10deg, 0deg);
@@ -86,16 +87,39 @@ export default {
 }
 .project-text .project-footer a {
   display: flex;
+  position: relative;
   align-items: center;
   width: max-content;
   height: fit-content;
+  font-weight: 600;
+  color: #00d1b2;
+  transition: all 0.5s ease;
+}
+.project-text .project-footer a::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  height: 0;
+  width: 0;
+  transition: all 0.5s ease;
+}
+.project-text .project-footer a:hover::after {
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color:#009982;
+  transform: scale(1);
+}
+.project-text .project-footer a:hover {
+  color: #009982;
 }
 .project-text .project-footer a span {
   margin-right: 5px;
 }
 .project-footer p span:first-child {
   display: inline-block;
-  background-color: blue;
+  background-color: #00d1b2;
   color: white;
   padding: 0 5px;
   transform: skew(10deg, 0deg);
@@ -132,6 +156,10 @@ export default {
   height: inherit;
   width: inherit;
 }
+
+/**********************/
+/* Responsive Styling */
+/**********************/
 @media only screen and (max-width: 1023px) {
   #projects .project-wrapper {
     margin-top: 8rem;
@@ -139,6 +167,7 @@ export default {
   }
   #projects .project-text {
     align-self: center;
+    text-align: center;
   }
   .project-text .project-footer {
     align-items: center;

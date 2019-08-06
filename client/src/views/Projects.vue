@@ -4,10 +4,11 @@
     <div class="hero-body projects-wrapper">
       <div class="container">
 
-        <div class="columns project-wrapper" 
+        <div class="columns project-wrapper hidden-fade-in-top" 
           v-for="(project, index) in projects" 
           v-bind:item="project" v-bind:index="index" v-bind:key="project._id" 
-          :class="[index % 2 !== 0 ? 'project-reverse': '']"
+          :class="[index % 2 !== 0 ? 'project-reverse hidden-fade-in-top': 'hidden-fade-in-bottom']"
+          v-fadein="'showElement'"
         >
           <div class="column is-full-mobile is-two-thirds-tablet is-one-third-desktop project-text is-flex">
             <p class="is-size-6-touch"><span class="project-title is-size-4">{{ project.title }}</span> {{ project.text }}</p>

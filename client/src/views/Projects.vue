@@ -1,6 +1,6 @@
 <template>
   <section id="projects" class="hero is-medium">
-    <h2 class="title is-size-2-desktop hidden-fade-in-left section-title" v-fadein="'showElement'">Projects Title</h2>
+    <h2 class="title is-size-2-desktop hidden-fade-in-left section-title" v-fadein="'showElement'">Selected Projects <br> I Enjoyed Crafting</h2>
     <div class="hero-body projects-wrapper">
       <div class="container">
 

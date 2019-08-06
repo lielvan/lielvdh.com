@@ -11,6 +11,7 @@
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
           <a class="navbar-item" v-scroll-to="'#head'">Home</a>
+          <a class="navbar-item" v-scroll-to="'#projects'">Projects</a>
           <a class="navbar-item" v-scroll-to="'#chapters'">Chapters</a>
           <a class="navbar-item" v-scroll-to="'#hobbies'">Hobbies</a>
           <a class="navbar-item" v-scroll-to="'#motos'">Motos</a>
@@ -34,6 +35,7 @@
     </nav>
 
     <Head />
+    <Projects />
     <Chapters />
     <!-- Hobbies: Lifting/Swimming, Futball, Reading, Gradening, Investing -->
     <section id="hobbies" class="hero">
@@ -48,6 +50,7 @@
 
 <script>
 import Head from "@/views/Head.vue";
+import Projects from "@/views/Projects.vue";
 import Chapters from "@/views/Chapters.vue";
 import Books from "@/views/Books.vue";
 import Motos from "@/views/Motos.vue";
@@ -57,6 +60,7 @@ export default {
   name: 'home',
   components: {
     Head,
+    Projects,
     Chapters,
     Books,
     Motos,

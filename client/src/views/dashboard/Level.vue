@@ -2,6 +2,12 @@
   <nav class="level">
     <div class="level-item has-text-centered">
       <div>
+        <p class="heading">Projects</p>
+        <p class="title">{{ totalProjects }}</p>
+      </div>
+    </div>
+    <div class="level-item has-text-centered">
+      <div>
         <p class="heading">Chapters</p>
         <p class="title">{{ totalChapters }}</p>
       </div>
@@ -26,6 +32,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'dashboard-level',
   computed: {
+    ...mapState('projects', ['totalProjects']),
     ...mapState('chapters', ['totalChapters']),
     ...mapState('books', ['totalBooks']),
     ...mapState('motos', ['totalMotos'])

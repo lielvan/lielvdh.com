@@ -10,7 +10,8 @@ const express       = require('express'),
       cors          = require('cors'),
       passport      = require('passport'),
       LocalStrategy = require('passport-local'),
-      middleware    = require('./middleware');
+      middleware    = require('./middleware'),
+      enforce       = require('express-sslify');
 
 // Models
 const User = require('./models/user');
@@ -38,6 +39,7 @@ mongoose.connect(url, {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Passport
 app.use(session({

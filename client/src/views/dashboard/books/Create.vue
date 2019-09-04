@@ -2,7 +2,7 @@
   <div>
     <h1>CREATE FORM GOES HERE</h1>
 
-    <form @submit.prevent="createBook">
+    <form enctype="multipart/form-data" @submit.prevent="createBook">
       <div class="columns field">
         <div class="column is-one-quarter">
           <label class="is-sr-only" for="title"></label>
@@ -31,7 +31,7 @@
         <div class="column is-one-quarter">
           <label class="is-sr-only" for="image"></label>
           <div class="control">
-            <input class="input" type="text" name="image" v-model="newBook.image" placeholder="Image">
+            <input class="input" type="file" name="image" ref="image" v-on:change="handleFileUpload()" placeholder="Image">
           </div>
         </div>
       </div>
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    handleFileUpload() {
+      this.newBook.image = this.$refs.image.files[0];
+    },
     createBook() {
       this.$store.dispatch('books/addBook', this.newBook)
         .then(() => {

@@ -39,7 +39,6 @@ mongoose.connect(url, {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Passport
 app.use(session({
@@ -79,6 +78,8 @@ app.use('/api/motos', motosRoutes);
 
 // Handle Production
 if(process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true })); // Redirect HTTP requests to HTTPS
+
   // Static folder
   app.use(express.static(__dirname + '/public/'));
 

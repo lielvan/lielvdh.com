@@ -31,11 +31,16 @@ const actions = {
   },
   // Add Book
   async addBook({commit}, book) {
-    return await axios.post(`${url}books`, book)
-            .then((response) => {
-              commit('add_book', response.data);
-            })
-            .catch(err => {})
+    return await axios({
+      method: 'POST',
+      url: `${url}books`,
+      data: book,
+      config: { headers: { 'Content-Type': 'multipart/form-data' }}
+    })
+    .then((response) => {
+      commit('add_book', response.data);
+    })
+    .catch(err => {})
   },
   // Edit Book
   async editBook({commit}, {id, book}) {

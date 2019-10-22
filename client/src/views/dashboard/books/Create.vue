@@ -29,9 +29,15 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="image"></label>
-          <div class="control">
-            <input class="input" type="file" name="image" ref="image" v-on:change="handleFileUpload()" placeholder="Image">
+          <div class="file has-name is-boxed is-fullwidth">
+            <label class="file-label">
+              <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
+              <span class="file-cta">
+                <span class="file-icon"><i class="fas fa-upload"></i></span>
+                <span class="file-label">Choose an image…</span>
+              </span>
+              <span class="file-name">{{ this.newBook.image }}</span>
+            </label>
           </div>
         </div>
       </div>
@@ -57,21 +63,28 @@ export default {
   name: 'book-new',
   data() {
     return {
+      formData: new FormData(),
       newBook: {
         title: '',
         author: '',
         description: '',
-        image: '',
+        image: 'No Image',
         isbn: '',
       }
     }
   },
   methods: {
-    handleFileUpload() {
-      this.newBook.image = this.$refs.image;
+    handleFileUpload(event) {
+      console.log(event.target.files[0]);
+      this.formData.append('image', event.target.files[0]);
     },
     createBook() {
-      this.$store.dispatch('books/addBook', this.newBook)
+      this.formData.append('title', this.newBook.title);
+      this.formData.append('author', this.newBook.author);
+      this.formData.append('description', this.newBook.description);
+      this.formData.append('isbn', this.newBook.isbn);
+
+      this.$store.dispatch('books/addBook', this.formData)
         .then(() => {
           this.$router.push('/dashboard/books')
         })

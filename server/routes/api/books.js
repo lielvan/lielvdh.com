@@ -34,7 +34,8 @@ router.post('/', async (req, res) => {
     }
     else {
       // If file's not selected
-      if(req.file == undefined) {
+      if(req.body.file == undefined) {
+        console.log(req.body.file);
         console.log(`No file selected.`);
       }
       else {

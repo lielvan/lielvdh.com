@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     handleFileUpload() {
-      this.newBook.image = this.$refs.image.files[0];
+      this.newBook.image = this.$refs.image;
     },
     createBook() {
       this.$store.dispatch('books/addBook', this.newBook)

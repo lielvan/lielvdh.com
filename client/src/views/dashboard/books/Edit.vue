@@ -32,7 +32,8 @@
         <div class="column is-one-quarter">
           <label class="is-sr-only" for="image"></label>
           <div class="control">
-            <input class="input" type="text" name="image" v-model="book.image">
+            <!-- <input class="input" type="text" name="image" v-model="book.image"> -->
+            <input class="input" type="file" name="image" ref="image" v-on:change="handleFileUpload()" placeholder="Image">
           </div>
         </div>
       </div>
@@ -75,6 +76,9 @@ export default {
       })
   },
   methods: {
+    handleFileUpload() {
+      this.book.image = this.$refs.image.files[0];
+    },
     editBook() {
       this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.book })
         .then(() => {

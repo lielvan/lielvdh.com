@@ -29,6 +29,7 @@ const actions = {
       }
     })
   },
+
   // Add Book
   async addBook({commit}, book) {
     return await axios({
@@ -42,20 +43,21 @@ const actions = {
     })
     .catch(err => {})
   },
+
   // Edit Book
   async editBook({commit}, {id, book}) {
     return await axios({
-      method: 'POST',
+      method: 'PUT',
       url: `${url}books/${id}`,
       data: book,
       config: { headers: { 'Content-Type': 'multipart/form-data' }}
     })
-    // return await axios.put(`${url}books/${id}`, book)
     .then((response) => {
       commit('edit_book', response.data);
     })
     .catch(err => {})
   },
+
   // Delete Book
   async deleteBook({commit}, id) {
     return axios.delete(`${url}books/${id}`)

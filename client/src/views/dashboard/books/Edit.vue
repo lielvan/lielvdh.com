@@ -34,7 +34,7 @@
             <label class="file-label">
               <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
               <span class="file-cta">
-                <span class="file-icon"><i class="fas fa-upload"></i></span>
+                <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
                 <span class="file-label">Choose an image…</span>
               </span>
               <span class="file-name">{{ this.book.image }}</span>
@@ -85,7 +85,7 @@ export default {
     handleFileUpload(event) {
       let image = event.target.files[0];
       console.log(image);
-      this.book.image = image.filename;
+      this.book.image = image.name;
       this.formData.append('image', image);
     },
     editBook() {

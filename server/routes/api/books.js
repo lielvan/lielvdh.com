@@ -25,7 +25,6 @@ router.post('/', upload.single('image'), async (req, res) => {
     console.log(req.file);
     console.log(`No file selected.`);
   }
-
   const newBook = {
     title: req.body.title,    
     author: req.body.author,
@@ -34,7 +33,6 @@ router.post('/', upload.single('image'), async (req, res) => {
     isbn: req.body.isbn,
     createdAt: new Date()
   }
-
   await Book.create(newBook, (err, book) => {
     if(err) {
       console.log(err);
@@ -62,7 +60,6 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
     console.log(req.file);
     console.log(`No file selected.`);
   }
-
   const book = {
     title: req.body.title,
     author: req.body.author,

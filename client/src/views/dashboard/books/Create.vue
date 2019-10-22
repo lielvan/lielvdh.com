@@ -29,7 +29,7 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <div class="file has-name is-boxed is-fullwidth">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
             <label class="file-label">
               <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
               <span class="file-cta">
@@ -103,5 +103,8 @@ export default {
 <style>
 form .columns {
   justify-content: center;
+}
+.file .file-name {
+  text-align: center;
 }
 </style>

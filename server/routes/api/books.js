@@ -21,8 +21,11 @@ router.get('/', async (req, res) => {
 
 // CREATE - Add a book
 router.post('/', upload.single('image'), async (req, res) => {
-  console.log("Request Body: ", req.body);
-  console.log("Request File: ", req.file);
+  if(req.file == undefined) {
+    console.log(req.file);
+    console.log(`No file selected.`);
+  }
+
   const newBook = {
     title: req.body.title,    
     author: req.body.author,
@@ -30,10 +33,6 @@ router.post('/', upload.single('image'), async (req, res) => {
     image: req.file.originalname,
     isbn: req.body.isbn,
     createdAt: new Date()
-  }
-  if(req.file == undefined) {
-    console.log(req.file);
-    console.log(`No file selected.`);
   }
 
   await Book.create(newBook, (err, book) => {
@@ -58,12 +57,17 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update book
-router.put('/:id', middleware.isLoggedIn, async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
+  if(req.file == undefined) {
+    console.log(req.file);
+    console.log(`No file selected.`);
+  }
+
   const book = {
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
-    image: req.body.image,
+    image: req.file.originalname,
     isbn: req.body.isbn,
   }
   await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {

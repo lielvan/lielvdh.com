@@ -30,10 +30,15 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="image"></label>
-          <div class="control">
-            <!-- <input class="input" type="text" name="image" v-model="book.image"> -->
-            <input class="input" type="file" name="image" ref="image" v-on:change="handleFileUpload()" placeholder="Image">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
+              <span class="file-cta">
+                <span class="file-icon"><i class="fas fa-upload"></i></span>
+                <span class="file-label">Choose an image…</span>
+              </span>
+              <span class="file-name">{{ this.book.image }}</span>
+            </label>
           </div>
         </div>
       </div>
@@ -61,6 +66,7 @@ export default {
   name: 'book-edit',
   data() {
     return {
+      formData: new FormData(),
       book: {},
       error: '',
     }
@@ -76,11 +82,19 @@ export default {
       })
   },
   methods: {
-    handleFileUpload() {
-      this.book.image = this.$refs.image.files[0];
+    handleFileUpload(event) {
+      let image = event.target.files[0];
+      console.log(image);
+      this.book.image = image.filename;
+      this.formData.append('image', image);
     },
     editBook() {
-      this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.book })
+      this.formData.append('title', this.book.title);
+      this.formData.append('author', this.book.author);
+      this.formData.append('description', this.book.description);
+      this.formData.append('isbn', this.book.isbn);
+      
+      this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.formData })
         .then(() => {
           this.$router.push('/dashboard/books')
         })

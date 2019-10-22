@@ -44,11 +44,17 @@ const actions = {
   },
   // Edit Book
   async editBook({commit}, {id, book}) {
-    return await axios.put(`${url}books/${id}`, book)
-            .then((response) => {
-              commit('edit_book', response.data);
-            })
-            .catch(err => {})
+    return await axios({
+      method: 'POST',
+      url: `${url}books/${id}`,
+      data: book,
+      config: { headers: { 'Content-Type': 'multipart/form-data' }}
+    })
+    // return await axios.put(`${url}books/${id}`, book)
+    .then((response) => {
+      commit('edit_book', response.data);
+    })
+    .catch(err => {})
   },
   // Delete Book
   async deleteBook({commit}, id) {

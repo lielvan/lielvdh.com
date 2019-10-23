@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>CREATE FORM GOES HERE</h1>
+    <h1 class="dashboard-title">Create Form</h1>
 
     <form enctype="multipart/form-data" @submit.prevent="createBook">
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="title"></label>
+          <label class="label has-text-light" for="title">Title</label>
           <div class="control">
             <input class="input" type="text" name="title" v-model="newBook.title" placeholder="Title">
           </div>
@@ -13,7 +13,7 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="author"></label>
+          <label class="label has-text-light" for="author">Author</label>
           <div class="control">
             <input class="input" type="text" name="author" v-model="newBook.author" placeholder="Author">
           </div>
@@ -21,13 +21,17 @@
       </div>
       <div class="columns field">
         <div class="column is-one-third">
-          <label class="is-sr-only" for="description"></label>
+          <label class="label has-text-light" for="description">Description</label>
           <div class="control">
             <textarea class="textarea is-info is-small" name="description" id="description" rows="10" v-model="newBook.description" placeholder="Description"></textarea>
           </div>
         </div>
       </div>
       <div class="columns field">
+        <div class="column is-one-fifth">
+          <img v-if="newImageURL" :src="newImageURL">
+          <span id="NoImage" v-else>No Image To Display</span>
+        </div>
         <div class="column is-one-quarter">
           <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
             <label class="file-label">
@@ -43,7 +47,7 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="isbn"></label>
+          <label class="label has-text-light" for="isbn">ISBN</label>
           <div class="control">
             <input class="input" type="text" name="isbn" v-model="newBook.isbn" placeholder="ISBN #">
           </div>
@@ -70,13 +74,17 @@ export default {
         description: '',
         image: 'No Image',
         isbn: '',
-      }
+      },
+      newImageURL: null,
     }
   },
   methods: {
     handleFileUpload(event) {
-      console.log(event.target.files[0]);
-      this.formData.set('image', event.target.files[0]);
+      let newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImageURL = URL.createObjectURL(newImage);
+      this.newBook.image = newImage.name;
+      this.formData.set('image', newImage);
     },
     createBook() {
       this.formData.append('title', this.newBook.title);
@@ -106,5 +114,11 @@ form .columns {
 }
 .file .file-name {
   text-align: center;
+}
+#NoImage {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
 }
 </style>

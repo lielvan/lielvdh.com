@@ -60,5 +60,10 @@ export default {
 </script>
 
 <style>
-
+.dashboard-title {
+  padding: 13px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 </style>

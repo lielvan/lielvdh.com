@@ -23,7 +23,8 @@ router.get('/', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
   if(req.file == undefined) {
     console.log(req.file);
-    console.log(`No file selected.`);
+    console.log('No file selected.');
+    res.send('No file found');
   }
   const newBook = {
     title: req.body.title,    
@@ -59,6 +60,7 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
   if(req.file == undefined) {
     console.log(req.file);
     console.log(`No file selected.`);
+    res.send('No file found');
   }
   const book = {
     title: req.body.title,

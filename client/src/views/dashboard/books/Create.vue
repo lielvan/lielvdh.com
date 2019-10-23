@@ -76,7 +76,7 @@ export default {
   methods: {
     handleFileUpload(event) {
       console.log(event.target.files[0]);
-      this.formData.append('image', event.target.files[0]);
+      this.formData.set('image', event.target.files[0]);
     },
     createBook() {
       this.formData.append('title', this.newBook.title);

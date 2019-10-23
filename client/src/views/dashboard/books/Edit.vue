@@ -86,7 +86,7 @@ export default {
       let image = event.target.files[0];
       console.log(image);
       this.book.image = image.name;
-      this.formData.append('image', image);
+      this.formData.set('image', image);
     },
     editBook() {
       this.formData.append('title', this.book.title);

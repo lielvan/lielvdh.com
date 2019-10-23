@@ -1,7 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const Chapter = require('../../models/chapter');
 const middleware = require('../../middleware');
+
+// File upload setup
+const storage = multer.diskStorage({
+  destination: './server/public/images/chapters',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 // INDEX - Get all chapters
 router.get('/', async (req, res) => {
@@ -10,13 +20,17 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add a chapter
-router.post('/', middleware.isLoggedIn, async (req, res) => {
+router.post('/', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
+  if(req.file == undefined) {
+    console.log(req.file);
+    console.log(`No file selected.`);
+  }
   const newChapter = {
     title: req.body.title,
     title_link: req.body.title_link,
     subtitle: req.body.subtitle,
     text: req.body.text,
-    image: req.body.image,
+    image: req.file.originalname,
     location: req.body.location,
     time_frame: req.body.time_frame,
     createdAt: new Date()
@@ -43,15 +57,19 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update chapter
-router.put('/:id', middleware.isLoggedIn, async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
   console.log(`Request Body: ${req.body.title}`);
   console.log(`Param ID: ${req.params.id}`);
+  if(req.file == undefined) {
+    console.log(req.file);
+    console.log(`No file selected.`);
+  }
   const chapter = {
     title: req.body.title,
     title_link: req.body.title_link,
     subtitle: req.body.subtitle,
     text: req.body.text,
-    image: req.body.image,
+    image: req.file.originalname,
     location: req.body.location,
     time_frame: req.body.time_frame,
   }

@@ -1,7 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const Project = require('../../models/project');
 const middleware = require('../../middleware');
+
+// File upload setup
+const storage = multer.diskStorage({
+  destination: './server/public/images/projects',
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 // INDEX - Get all projects
 router.get('/', async (req, res) => {
@@ -10,24 +20,29 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add a project
-router.post('/', async (req, res) => {
-  const newProject = {
-    title: req.body.title,    
-    github_link: req.body.github_link,
-    text: req.body.text,
-    language: req.body.language,
-    code_image: req.body.code_image,
-    gif_image: req.body.gif_image,
-    createdAt: new Date()
-  }
-  await Project.create(newProject, (err, project) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(`Project Created: ${project}`);
-      res.status(201).send(project);
+router.post('/', middleware.isLoggedIn, upload.fields([{ name: 'code_image', maxCount: 1 }, { name: 'gif_image', maxCount: 1 }]), async (req, res) => {
+  if(req.files === undefined) {
+    console.log('No files found');
+    res.send('No files found');
+  } else {
+    const newProject = {
+      title: req.body.title,    
+      github_link: req.body.github_link,
+      text: req.body.text,
+      language: req.body.language,
+      createdAt: new Date()
     }
-  })
+    if(req.files['code_image']) newProject.code_image = req.files['code_image'][0].originalname;
+    if(req.files['gif_image']) newProject.gif_image = req.files['gif_image'][0].originalname;
+    await Project.create(newProject, (err, project) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(`Project Created: ${project}`);
+        res.status(201).send(project);
+      }
+    })
+  }
 });
 
 // EDIT - send project to edit form
@@ -42,24 +57,29 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update project
-router.put('/:id', middleware.isLoggedIn, async (req, res) => {
-  const book = {
-    title: req.body.title,
-    github_link: req.body.github_link,
-    text: req.body.text,
-    language: req.body.language,
-    code_image: req.body.code_image,
-    gif_image: req.body.gif_image,
+router.put('/:id', middleware.isLoggedIn, upload.fields([{ name: 'code_image', maxCount: 1 }, { name: 'gif_image', maxCount: 1 }]), async (req, res) => {
+  if(req.files === undefined) {
+    console.log('No files found');
+    res.send('No files found');
+  } else {
+    const project = {
+      title: req.body.title,
+      github_link: req.body.github_link,
+      text: req.body.text,
+      language: req.body.language,
+    }
+    if(req.files['code_image']) project.code_image = req.files['code_image'][0].originalname;
+    if(req.files['gif_image']) project.gif_image = req.files['gif_image'][0].originalname;
+    await Project.findByIdAndUpdate({ _id: req.params.id }, project, {new: true}, (err, updatedProject) => {
+      if(err) {
+        console.log(err);
+      }
+      else {
+        console.log(`Updated Project: ${updatedProject}`);
+        res.status(200).send(updatedProject);
+      }
+    })
   }
-  await Project.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedProject) => {
-    if(err) {
-      console.log(err);
-    }
-    else {
-      console.log(`Updated Project: ${updatedProject}`);
-      res.status(200).send(updatedProject);
-    }
-  })
 });
 
 

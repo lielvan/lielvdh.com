@@ -31,20 +31,30 @@ const actions = {
   },
   // Add Project
   async addProject({commit}, project) {
-    return await axios.post(`${url}projects`, project)
-            .then((response) => {
-              // debugger;
-              commit('add_project', response.data);
-            })
-            .catch(err => {})
+    return await axios({
+      method: 'POST',
+      url: `${url}projects`,
+      data: project,
+      config: { headers: { 'Content-Type': 'multipart/form-data' }}
+    })
+    .then((response) => {
+      // debugger;
+      commit('add_project', response.data);
+    })
+    .catch(err => {})
   },
   // Edit Project
   async editProject({commit}, {id, project}) {
-    return await axios.put(`${url}projects/${id}`, project)
-            .then((response) => {
-              commit('edit_project', response.data);
-            })
-            .catch(err => {})
+    return await axios({
+      method: 'PUT',
+      url: `${url}projects/${id}`,
+      data: project,
+      config: { headers: { 'Content-Type': 'multipart/form-data' }}
+    })
+    .then((response) => {
+      commit('edit_project', response.data);
+    })
+    .catch(err => {})
   },
   // Delete Project
   async deleteProject({commit}, id) {

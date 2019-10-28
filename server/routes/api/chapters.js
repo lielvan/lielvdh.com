@@ -21,28 +21,29 @@ router.get('/', async (req, res) => {
 
 // CREATE - Add a chapter
 router.post('/', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
-  if(req.file == undefined) {
+  if(req.file === undefined) {
     console.log(req.file);
     console.log(`No file selected.`);
-  }
-  const newChapter = {
-    title: req.body.title,
-    title_link: req.body.title_link,
-    subtitle: req.body.subtitle,
-    text: req.body.text,
-    image: req.file.originalname,
-    location: req.body.location,
-    time_frame: req.body.time_frame,
-    createdAt: new Date()
-  }
-  await Chapter.create(newChapter, (err, chapter) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(`Chapter Created: ${chapter}`);
-      res.status(201).send(chapter);
+  } else {
+    const newChapter = {
+      title: req.body.title,
+      title_link: req.body.title_link,
+      subtitle: req.body.subtitle,
+      text: req.body.text,
+      image: req.file.originalname,
+      location: req.body.location,
+      time_frame: req.body.time_frame,
+      createdAt: new Date()
     }
-  })
+    await Chapter.create(newChapter, (err, chapter) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(`Chapter Created: ${chapter}`);
+        res.status(201).send(chapter);
+      }
+    })
+  }
 });
 
 // EDIT - send chapter to edit form
@@ -58,30 +59,29 @@ router.get('/:id/edit', (req, res) => {
 
 // UDPATE - Update chapter
 router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
-  console.log(`Request Body: ${req.body.title}`);
-  console.log(`Param ID: ${req.params.id}`);
-  if(req.file == undefined) {
+  if(req.file === undefined) {
     console.log(req.file);
     console.log(`No file selected.`);
-  }
-  const chapter = {
-    title: req.body.title,
-    title_link: req.body.title_link,
-    subtitle: req.body.subtitle,
-    text: req.body.text,
-    image: req.file.originalname,
-    location: req.body.location,
-    time_frame: req.body.time_frame,
-  }
-  await Chapter.findByIdAndUpdate({ _id: req.params.id }, chapter, {new: true}, (err, updatedChapter) => {
-    if(err) {
-      console.log(err);
+  } else {
+    const chapter = {
+      title: req.body.title,
+      title_link: req.body.title_link,
+      subtitle: req.body.subtitle,
+      text: req.body.text,
+      image: req.file.originalname,
+      location: req.body.location,
+      time_frame: req.body.time_frame,
     }
-    else {
-      console.log(`Updated Chapter: ${updatedChapter}`);
-      res.status(200).send(updatedChapter);
-    }
-  })
+    await Chapter.findByIdAndUpdate({ _id: req.params.id }, chapter, {new: true}, (err, updatedChapter) => {
+      if(err) {
+        console.log(err);
+      }
+      else {
+        console.log(`Updated Chapter: ${updatedChapter}`);
+        res.status(200).send(updatedChapter);
+      }
+    })
+  }
 });
 
 

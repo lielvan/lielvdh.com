@@ -21,27 +21,28 @@ router.get('/', async (req, res) => {
 
 // CREATE - Add a book
 router.post('/', upload.single('image'), async (req, res) => {
-  if(req.file == undefined) {
+  if(req.file === undefined) {
     console.log(req.file);
     console.log('No file selected.');
     res.send('No file found');
-  }
-  const newBook = {
-    title: req.body.title,    
-    author: req.body.author,
-    description: req.body.description,
-    image: req.file.originalname,
-    isbn: req.body.isbn,
-    createdAt: new Date()
-  }
-  await Book.create(newBook, (err, book) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(`Book Created: ${book}`);
-      res.status(201).send(book);
+  } else {
+    const newBook = {
+      title: req.body.title,    
+      author: req.body.author,
+      description: req.body.description,
+      image: req.file.originalname,
+      isbn: req.body.isbn,
+      createdAt: new Date()
     }
-  })
+    await Book.create(newBook, (err, book) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(`Book Created: ${book}`);
+        res.status(201).send(book);
+      }
+    })
+  }
 });
 
 // EDIT - send book to edit form
@@ -61,25 +62,25 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
     console.log(req.file);
     console.log(`No file selected.`);
     res.send('No file found');
-  }
-  const book = {
-    title: req.body.title,
-    author: req.body.author,
-    description: req.body.description,
-    image: req.file.originalname,
-    isbn: req.body.isbn,
-  }
-  await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {
-    if(err) {
-      console.log(err);
+  } else {
+    const book = {
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description,
+      image: req.file.originalname,
+      isbn: req.body.isbn,
     }
-    else {
-      console.log(`Updated Book: ${updatedBook}`);
-      res.status(200).send(updatedBook);
-    }
-  })
+    await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {
+      if(err) {
+        console.log(err);
+      }
+      else {
+        console.log(`Updated Book: ${updatedBook}`);
+        res.status(200).send(updatedBook);
+      }
+    })
+  }
 });
-
 
 // DESTROY - Delete a book
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {

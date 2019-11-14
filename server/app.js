@@ -18,6 +18,7 @@ const User = require('./models/user');
 
 // ROUTES
 const indexRoutes    = require('./routes/api/index'),
+      generalRoutes  = require('./routes/api/general'),
       projectsRoutes = require('./routes/api/projects'),
       chaptersRoutes = require('./routes/api/chapters'),
       booksRoutes    = require('./routes/api/books'),
@@ -70,6 +71,7 @@ app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
     console.log(error);
   }
 });
+app.use('/api/general', generalRoutes);
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/books', booksRoutes);

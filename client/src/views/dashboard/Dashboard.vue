@@ -37,12 +37,14 @@ export default {
   },
   created() {
     this.getUserData()
+    this.getGenerals()
     this.getProjects()
     this.getChapters()
     this.getBooks()
     this.getMotos()
   },
   methods: {
+    ...mapActions('general', ['getGenerals']),
     ...mapActions('projects', ['getProjects']),
     ...mapActions('chapters', ['getChapters']),
     ...mapActions('books', ['getBooks']),

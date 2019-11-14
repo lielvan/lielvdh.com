@@ -16,6 +16,7 @@
       <p class="menu-label is-size-6 has-text-weight-semibold">General</p>
       <ul class="menu-list">
         <li><router-link :to="{ path: '/dashboard' }">Dashboard</router-link></li>
+        <li><router-link :to="{ path: '/dashboard/general' }">General</router-link></li>
         <li><router-link :to="{ path: '/dashboard/projects' }">Projects</router-link></li>
         <li><router-link :to="{ path: '/dashboard/chapters' }">Chapters</router-link></li>
         <li><router-link :to="{ path: '/dashboard/books' }">Books</router-link></li>

@@ -3,6 +3,7 @@ const express  = require('express'),
       General = require('../../models/general');
       middleware = require('../../middleware');
       multer = require('multer');
+      fs = require('fs');
 
 // File upload setup
 const storage = multer.diskStorage({
@@ -91,15 +92,23 @@ router.put('/:id', middleware.isLoggedIn, upload.single('file'), async (req, res
 
 // DELETE - Delete a general entry
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
-  await General.findOneAndDelete({ _id: req.params.id }, (err, deletedGeneral) => {
-    if(err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      console.log(`Deleted General Entry: ${deletedGeneral}`);
-      res.status(200).send();
-    }
-  });
+  try {
+    await General.findOneAndDelete({ _id: req.params.id }, (err, deletedGeneral) => {
+      if(err || deletedGeneral === null) throw 'Error has occurred';
+      else {
+        if(deletedGeneral.is_file) {
+          fs.unlink(`./server/public/doc/${deletedGeneral.text}`, (err) => {
+            if(err) throw err;
+            console.log(`${deletedGeneral.text} was deleted`);
+          });
+        }
+        console.log(`Deleted General Entry: ${deletedGeneral}`);
+        res.status(200).send();
+      }
+    });
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

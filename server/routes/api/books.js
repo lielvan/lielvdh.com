@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Book = require('../../models/book');
 const middleware = require('../../middleware');
+const fs = require('fs');
 
 // File upload setup
 const storage = multer.diskStorage({
@@ -84,14 +85,21 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
 
 // DESTROY - Delete a book
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
-  await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(bookDeleted);
-      res.status(200).send();
-    }
-  })
+  try {
+    await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
+      if(err || bookDeleted === null) throw 'Error has occurred';
+      else {
+        fs.unlink(`./server/public/images/books/${bookDeleted.image}`, (err) => {
+          if(err) throw err;
+          console.log(`${bookDeleted.image} was deleted`);
+        });
+        console.log(bookDeleted);
+        res.status(200).send();
+      }
+    });
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 

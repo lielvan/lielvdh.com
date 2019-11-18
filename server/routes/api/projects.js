@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Project = require('../../models/project');
 const middleware = require('../../middleware');
+const fs = require('fs');
 
 // File upload setup
 const storage = multer.diskStorage({
@@ -82,17 +83,27 @@ router.put('/:id', middleware.isLoggedIn, upload.fields([{ name: 'code_image', m
   }
 });
 
-
 // DESTROY - Delete a project
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
-  await Project.findOneAndDelete({ _id: req.params.id }, (err, deletedProject) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(deletedProject);
-      res.status(200).send();
-    }
-  })
+  try {
+    await Project.findOneAndDelete({ _id: req.params.id }, (err, deletedProject) => {
+      if(err || deletedProject === null) throw 'Error has occurred';
+      else {
+        fs.unlink(`./server/public/images/projects/${deletedProject.code_image}`, (err) => {
+          if(err) throw err;
+          console.log(`${deletedProject.code_image} was deleted`);
+        });
+        fs.unlink(`./server/public/images/projects/${deletedProject.gif_image}`, (err) => {
+          if(err) throw err;
+          console.log(`${deletedProject.gif_image} was deleted`);
+        });
+        console.log(deletedProject);
+        res.status(200).send();
+      }
+    });
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 

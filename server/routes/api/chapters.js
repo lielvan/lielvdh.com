@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Chapter = require('../../models/chapter');
 const middleware = require('../../middleware');
+const fs = require('fs');
 
 // File upload setup
 const storage = multer.diskStorage({
@@ -84,17 +85,23 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
   }
 });
 
-
 // DESTROY - Delete a chapter
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
-  await Chapter.findOneAndDelete({ _id: req.params.id }, (err, chapterDeleted) => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log(chapterDeleted);
-      res.status(200).send();
-    }
-  })
+  try {
+    await Chapter.findOneAndDelete({ _id: req.params.id }, (err, chapterDeleted) => {
+      if(err || chapterDeleted === null) throw 'Error has occurred';
+      else {
+        fs.unlink(`./server/public/images/chapters/${chapterDeleted.image}`, (err) => {
+          if(err) throw err;
+          console.log(`${chapterDeleted.image} was deleted`);
+        });
+        console.log(chapterDeleted);
+        res.status(200).send();
+      }
+    })
+  } catch(err) {
+    console.log(err);
+  }
 });
 
 

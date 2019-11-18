@@ -41,6 +41,18 @@ router.post('/', middleware.isLoggedIn, upload.single('file'), async (req, res) 
   }
 });
 
+// Find general entry by label
+router.get('/:label', async (req, res) => {
+  General.findOne({ label: req.params.label }, (err, foundGeneral) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(`General Entry Found By Label ${req.params.label}: ${foundGeneral}`);
+      res.status(200).send(foundGeneral);
+    } 
+  });
+});
+
 // EDIT - Get general entry info and send to frontend
 router.get('/:id/edit', async (req, res) => {
   await General.findById(req.params.id, (err, general) => {

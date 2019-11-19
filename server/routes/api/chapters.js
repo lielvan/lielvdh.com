@@ -89,7 +89,7 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   try {
     await Chapter.findOneAndDelete({ _id: req.params.id }, (err, chapterDeleted) => {
-      if(err || chapterDeleted === null) throw 'Error has occurred';
+      if(err || chapterDeleted === null) throw { error: err, message: 'Error has occurred', chapter: chapterDeleted };
       else {
         fs.unlink(`./server/public/images/chapters/${chapterDeleted.image}`, (err) => {
           if(err) throw err;
@@ -100,7 +100,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
       }
     })
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 });
 

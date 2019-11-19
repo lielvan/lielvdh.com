@@ -87,7 +87,7 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   try {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
-      if(err || bookDeleted === null) throw 'Error has occurred';
+      if(err || bookDeleted === null) throw { error: err, message: 'Error has occurred', book: bookDeleted };
       else {
         fs.unlink(`./server/public/images/books/${bookDeleted.image}`, (err) => {
           if(err) throw err;
@@ -98,7 +98,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
       }
     });
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 });
 

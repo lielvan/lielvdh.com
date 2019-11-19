@@ -87,7 +87,7 @@ router.put('/:id', middleware.isLoggedIn, upload.fields([{ name: 'code_image', m
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   try {
     await Project.findOneAndDelete({ _id: req.params.id }, (err, deletedProject) => {
-      if(err || deletedProject === null) throw 'Error has occurred';
+      if(err || deletedProject === null) throw { error: err, message: 'Error has occurred', project: deletedProject };
       else {
         fs.unlink(`./server/public/images/projects/${deletedProject.code_image}`, (err) => {
           if(err) throw err;
@@ -102,7 +102,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
       }
     });
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 });
 

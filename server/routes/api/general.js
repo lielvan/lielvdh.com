@@ -48,7 +48,7 @@ router.get('/:label', async (req, res) => {
     if(err) {
       console.log(err);
     } else {
-      console.log(`General Entry Found By Label ${req.params.label}: ${foundGeneral}`);
+      console.log(`General Entry Found By Label - ${req.params.label}: ${foundGeneral}`);
       res.status(200).send(foundGeneral);
     } 
   });
@@ -94,7 +94,7 @@ router.put('/:id', middleware.isLoggedIn, upload.single('file'), async (req, res
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   try {
     await General.findOneAndDelete({ _id: req.params.id }, (err, deletedGeneral) => {
-      if(err || deletedGeneral === null) throw 'Error has occurred';
+      if(err || deletedGeneral === null) throw { error: err, message: 'Error has occurred', general: deletedGeneral };
       else {
         if(deletedGeneral.is_file) {
           fs.unlink(`./server/public/doc/${deletedGeneral.text}`, (err) => {
@@ -107,7 +107,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
       }
     });
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 });
 

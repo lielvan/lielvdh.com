@@ -12,7 +12,7 @@
           
           <div class="footer-rights">
             <p class="is-size-7-mobile">&copy; <strong>Liel van der Hoeven</strong>. All Rights Reserved.</p>
-            <p class="is-size-7-mobile">Proudly created using the <strong>VENM</strong> stack. <a id="rumble" href="#" @click.prevent="handlePlay()"><img id="mini_computer" src="/images/mini_computer.svg" alt="tech"><span class="tooltip">Rumble...?</span></a></p>
+            <p class="is-size-7-mobile">Proudly created using the <strong>MEVN</strong> stack. <a id="rumble" href="#" @click.prevent="handlePlay()"><img id="mini_computer" src="/images/mini_computer.svg" alt="tech"><span class="tooltip">Rumble...?</span></a></p>
           </div>
           <p>{{ this.error }}</p>
 

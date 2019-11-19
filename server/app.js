@@ -18,6 +18,7 @@ const User = require('./models/user');
 
 // ROUTES
 const indexRoutes    = require('./routes/api/index'),
+      generalRoutes  = require('./routes/api/general'),
       projectsRoutes = require('./routes/api/projects'),
       chaptersRoutes = require('./routes/api/chapters'),
       booksRoutes    = require('./routes/api/books'),
@@ -39,7 +40,6 @@ mongoose.connect(url, {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 // Passport
 app.use(session({
@@ -71,6 +71,7 @@ app.get('/api/user', middleware.isLoggedIn, async (req, res) => {
     console.log(error);
   }
 });
+app.use('/api/general', generalRoutes);
 app.use('/api/chapters', chaptersRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/books', booksRoutes);
@@ -79,6 +80,8 @@ app.use('/api/motos', motosRoutes);
 
 // Handle Production
 if(process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true })); // Redirect HTTP requests to HTTPS
+
   // Static folder
   app.use(express.static(__dirname + '/public/'));
 

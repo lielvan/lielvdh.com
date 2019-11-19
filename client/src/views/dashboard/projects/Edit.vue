@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>EDIT FORM GOES HERE</h1>
-    <p>{{ $route.params.id }}</p>
+    <h1 class="dashboard-title">Edit Form</h1>
 
     <form @submit.prevent="editProject">
       <div class="columns field">
@@ -37,18 +36,38 @@
         </div>
       </div>
       <div class="columns field">
+        <div class="column is-one-fifth">
+          <img v-if="codeImageURL" :src="codeImageURL">
+          <img v-else :src="'/images/projects/' + this.project.code_image" alt="No Image">
+        </div>
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="text"></label>
-          <div class="control">
-            <input class="input" type="text" v-model="project.code_image">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" name="code_image" ref="code_image" @change="handleFileUpload($event, 'code')" placeholder="Code Image">
+              <span class="file-cta">
+                <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
+                <span class="file-label">Choose a code image…</span>
+              </span>
+              <span class="file-name">{{ this.project.code_image }}</span>
+            </label>
           </div>
         </div>
       </div>
       <div class="columns field">
+        <div class="column is-one-fifth">
+          <img v-if="gifImageURL" :src="gifImageURL">
+          <img v-else :src="'/images/projects/' + this.project.gif_image" alt="No GIF">
+        </div>
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="text"></label>
-          <div class="control">
-            <input class="input" type="text" v-model="project.gif_image">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" name="gif_image" ref="gif_image" @change="handleFileUpload($event, 'gif')" placeholder="GIF Image">
+              <span class="file-cta">
+                <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
+                <span class="file-label">Choose a GIF...</span>
+              </span>
+              <span class="file-name">{{ this.project.gif_image }}</span>
+            </label>
           </div>
         </div>
       </div>
@@ -68,8 +87,11 @@ export default {
   name: 'project-edit',
   data() {
     return {
+      formData: new FormData(),
       project: {},
       error: '',
+      codeImageURL: null,
+      gifImageURL: null
     }
   },
   async mounted() {
@@ -83,8 +105,27 @@ export default {
       })
   },
   methods: {
+    handleFileUpload(event, type) {
+      let image = event.target.files[0];
+      console.log(image);
+      if(type === 'code') {
+        this.codeImageURL = URL.createObjectURL(image);
+        this.project.code_image = image.name;
+        this.formData.set('code_image', image);
+      }
+      if(type === 'gif') {
+        this.gifImageURL = URL.createObjectURL(image);
+        this.project.gif_image = image.name;
+        this.formData.set('gif_image', image);
+      }
+    },
     editProject() {
-      this.$store.dispatch('projects/editProject', { id: this.$route.params.id, project: this.project })
+      this.formData.append('title', this.project.title);
+      this.formData.append('github_link', this.project.github_link);
+      this.formData.append('text', this.project.text);
+      this.formData.append('language', this.project.language);
+
+      this.$store.dispatch('projects/editProject', { id: this.$route.params.id, project: this.formData })
         .then(() => {
           this.$router.push('/dashboard/projects')
         })

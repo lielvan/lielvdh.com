@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>CREATE FORM GOES HERE</h1>
+    <h1 class="dashboard-title">Create Form</h1>
 
-    <form @submit.prevent="createBook">
+    <form enctype="multipart/form-data" @submit.prevent="createBook">
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="title"></label>
+          <label class="label has-text-light" for="title">Title</label>
           <div class="control">
             <input class="input" type="text" name="title" v-model="newBook.title" placeholder="Title">
           </div>
@@ -13,7 +13,7 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="author"></label>
+          <label class="label has-text-light" for="author">Author</label>
           <div class="control">
             <input class="input" type="text" name="author" v-model="newBook.author" placeholder="Author">
           </div>
@@ -21,23 +21,33 @@
       </div>
       <div class="columns field">
         <div class="column is-one-third">
-          <label class="is-sr-only" for="description"></label>
+          <label class="label has-text-light" for="description">Description</label>
           <div class="control">
             <textarea class="textarea is-info is-small" name="description" id="description" rows="10" v-model="newBook.description" placeholder="Description"></textarea>
           </div>
         </div>
       </div>
       <div class="columns field">
+        <div class="column is-one-fifth">
+          <img v-if="newImageURL" :src="newImageURL">
+          <span id="NoImage" v-else>No Image To Display</span>
+        </div>
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="image"></label>
-          <div class="control">
-            <input class="input" type="text" name="image" v-model="newBook.image" placeholder="Image">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
+              <span class="file-cta">
+                <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
+                <span class="file-label">Choose an image…</span>
+              </span>
+              <span class="file-name">{{ this.newBook.image }}</span>
+            </label>
           </div>
         </div>
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="isbn"></label>
+          <label class="label has-text-light" for="isbn">ISBN</label>
           <div class="control">
             <input class="input" type="text" name="isbn" v-model="newBook.isbn" placeholder="ISBN #">
           </div>
@@ -57,18 +67,32 @@ export default {
   name: 'book-new',
   data() {
     return {
+      formData: new FormData(),
       newBook: {
         title: '',
         author: '',
         description: '',
-        image: '',
+        image: 'No Image',
         isbn: '',
-      }
+      },
+      newImageURL: null,
     }
   },
   methods: {
+    handleFileUpload(event) {
+      let newImage = event.target.files[0];
+      console.log(newImage);
+      this.newImageURL = URL.createObjectURL(newImage);
+      this.newBook.image = newImage.name;
+      this.formData.set('image', newImage);
+    },
     createBook() {
-      this.$store.dispatch('books/addBook', this.newBook)
+      this.formData.append('title', this.newBook.title);
+      this.formData.append('author', this.newBook.author);
+      this.formData.append('description', this.newBook.description);
+      this.formData.append('isbn', this.newBook.isbn);
+
+      this.$store.dispatch('books/addBook', this.formData)
         .then(() => {
           this.$router.push('/dashboard/books')
         })
@@ -86,6 +110,15 @@ export default {
 
 <style>
 form .columns {
+  justify-content: center;
+}
+.file .file-name {
+  text-align: center;
+}
+#NoImage {
+  display: flex;
+  height: 100%;
+  align-items: center;
   justify-content: center;
 }
 </style>

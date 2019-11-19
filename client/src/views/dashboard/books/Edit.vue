@@ -1,12 +1,11 @@
 <template>
   <div>
-    <h1>EDIT FORM GOES HERE</h1>
-    <p>{{ $route.params.id }}</p>
+    <h1 class="dashboard-title">Edit Form</h1>
 
     <form @submit.prevent="editBook">
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="title"></label>
+          <label class="label has-text-light" for="title">Title</label>
           <div class="control">
             <input class="input" type="text" name="title" v-model="book.title">
           </div>
@@ -14,7 +13,7 @@
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="author"></label>
+          <label class="label has-text-light" for="author">Author</label>
           <div class="control">
             <input class="input" type="text" name="author" v-model="book.author">
           </div>
@@ -22,23 +21,33 @@
       </div>
       <div class="columns field">
         <div class="column is-one-third">
-          <label class="is-sr-only" for="description"></label>
+          <label class="label has-text-light" for="description">Description</label>
           <div class="control">
             <textarea class="textarea is-info is-small" name="description" id="description" rows="10" v-model="book.description"></textarea>
           </div>
         </div>
       </div>
       <div class="columns field">
+        <div class="column image-wrapper is-one-fifth">
+          <img v-if="imageURL" :src="imageURL">
+          <img v-else :src="'/images/books/' + this.book.image" alt="No Image">
+        </div>
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="image"></label>
-          <div class="control">
-            <input class="input" type="text" name="image" v-model="book.image">
+          <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
+            <label class="file-label">
+              <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
+              <span class="file-cta">
+                <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
+                <span class="file-label">Choose an image…</span>
+              </span>
+              <span class="file-name">{{ this.book.image }}</span>
+            </label>
           </div>
         </div>
       </div>
       <div class="columns field">
         <div class="column is-one-quarter">
-          <label class="is-sr-only" for="isbn"></label>
+          <label class="label has-text-light" for="isbn">ISBN</label>
           <div class="control">
             <input class="input" type="text" name="isbn" v-model="book.isbn">
           </div>
@@ -60,8 +69,10 @@ export default {
   name: 'book-edit',
   data() {
     return {
+      formData: new FormData(),
       book: {},
       error: '',
+      imageURL: null,
     }
   },
   async mounted() {
@@ -75,8 +86,20 @@ export default {
       })
   },
   methods: {
+    handleFileUpload(event) {
+      let image = event.target.files[0];
+      console.log(image);
+      this.imageURL = URL.createObjectURL(image);
+      this.book.image = image.name;
+      this.formData.set('image', image);
+    },
     editBook() {
-      this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.book })
+      this.formData.append('title', this.book.title);
+      this.formData.append('author', this.book.author);
+      this.formData.append('description', this.book.description);
+      this.formData.append('isbn', this.book.isbn);
+      
+      this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.formData })
         .then(() => {
           this.$router.push('/dashboard/books')
         })
@@ -88,5 +111,8 @@ export default {
 <style>
 form .columns {
   justify-content: center;
+}
+.image-wrapper img {
+  max-height: 225px;
 }
 </style>

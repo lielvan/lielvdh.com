@@ -37,12 +37,14 @@ export default {
   },
   created() {
     this.getUserData()
+    this.getGenerals()
     this.getProjects()
     this.getChapters()
     this.getBooks()
     this.getMotos()
   },
   methods: {
+    ...mapActions('general', ['getGenerals']),
     ...mapActions('projects', ['getProjects']),
     ...mapActions('chapters', ['getChapters']),
     ...mapActions('books', ['getBooks']),
@@ -60,5 +62,10 @@ export default {
 </script>
 
 <style>
-
+.dashboard-title {
+  padding: 13px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 </style>

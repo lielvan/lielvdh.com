@@ -26,7 +26,7 @@
     >
       <slide v-for="(book, index) in books" :item="book" :index="index" :key="book._id">
         <div class="book-img-wrapper">
-          <img class="book-img" :src="book.image" alt="Book Image Unavailable">
+          <img class="book-img" :src="'/images/books/' + book.image" alt="Book Image Unavailable">
           <div class="book-info">
             <p id="book-description">{{ book.description }}</p>
           </div>

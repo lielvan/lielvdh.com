@@ -113,6 +113,27 @@ const router = new Router({
               component: require("@/views/dashboard/motos/Edit.vue").default
             },
           ]
+        },
+        {
+          path: "general",
+          component: require("@/views/dashboard/general/General.vue").default,
+          children: [
+            {
+              path: "/",
+              name: "general",
+              component: require("@/views/dashboard/general/Table.vue").default
+            },
+            {
+              path: "new",
+              name: "new-general",
+              component: require("@/views/dashboard/general/Create.vue").default
+            },
+            {
+              path: ":id/edit",
+              name: "edit-general",
+              component: require("@/views/dashboard/general/Edit.vue").default
+            },
+          ]
         }
       ]
     },

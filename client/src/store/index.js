@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import axios from 'axios';
+import general from './modules/general';
 import projects from './modules/projects';
 import chapters from './modules/chapters';
 import books from './modules/books';
@@ -12,6 +13,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
+    general,
     projects,
     chapters,
     books,

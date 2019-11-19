@@ -7,7 +7,7 @@
           <p class="is-size-7-mobile">Currently open to new opportunities within the realm of the evergrowing tech world</p>
   
           <div class="cv-download">
-            <a href="/doc/LielVanDerHoeven-CV.pdf" target="_blank">My Curriculum Vitae</a>
+            <a :href="'/doc/' + this.cv.text" target="_blank">My Curriculum Vitae</a>
           </div>
           
           <div class="footer-rights">
@@ -24,13 +24,25 @@
 
 <script>
 /* eslint-disable */
+import axios from 'axios';
+
 export default {
     name: "Footer",
     data() {
       return {
         audio: new Audio("/sound/Lets_Get_Ready_To_Rumble.mp3"),
-        error: ''
+        error: '',
+        cv: ''
       }
+    },
+    async mounted() {
+      await axios.get(`/api/general/liel-cv`)
+        .then((response) => {
+          this.cv = response.data;
+        })
+        .catch((err) => {
+          this.error = err;
+        });
     },
     methods: {
       async playRumble() {

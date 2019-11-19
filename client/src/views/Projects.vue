@@ -18,9 +18,9 @@
             </div>
           </div>
           <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
-            <img class="project-code right-side" :src="project.code_image" alt="Project Image Unavailable">
+            <img class="project-code right-side" :src="'/images/projects/' + project.code_image" alt="Project Image Unavailable">
             <div class="gif-wrapper">
-              <img class="project-gif" :src="project.gif_image" alt="Project Image Unavailable">
+              <img class="project-gif" :src="'/images/projects/' + project.gif_image" alt="Project Image Unavailable">
             </div>
           </div>
         </div>

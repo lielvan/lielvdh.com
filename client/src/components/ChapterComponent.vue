@@ -11,7 +11,7 @@
               </div>
 
               <div class="column is-one-quarter-mobile is-one-quarter-tablet is-one-quarter-desktop image">
-                <img :src="chapter.image" alt="Chapter Image Unavailable">
+                <img :src="'/images/chapters/' + chapter.image" alt="Chapter Image Unavailable">
               </div>
             </div>
             <div class="columns">

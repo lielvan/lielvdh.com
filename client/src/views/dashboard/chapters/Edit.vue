@@ -38,7 +38,7 @@
       <div class="columns field">
         <div class="column image-wrapper is-one-fifth">
           <img v-if="imageURL" :src="imageURL">
-          <img v-else :src="'/uploads/images/chapters/' + this.chapter.image" alt="No Image">
+          <img v-else :src="'/images/chapters/' + this.chapter.image" alt="No Image">
         </div>
         <div class="column is-one-quarter">
           <div class="file has-name is-centered is-boxed is-fullwidth is-primary">

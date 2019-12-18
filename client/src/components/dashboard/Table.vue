@@ -7,7 +7,7 @@
     <table class="table is-bordered is-narrow is-striped">
       <thead>
         <tr class="table-head">
-          <!-- Table metadata headers go here -->
+          <!-- Table metadata headers -->
           <th v-for="data in metadata" v-bind:key="data.title">
             {{ data.title }}
           </th>
@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in items" v-bind:index="index" v-bind:key="item._id">
-          <!-- Table metadata identifiers go here -->
+          <!-- Table metadata identifiers -->
           <td v-for="data in metadata" v-bind:key="data.identifier">{{ item[data.identifier] }}</td>
           <td>
             <div class="buttons are-small">
@@ -68,5 +68,12 @@ export default {
 .table thead .table-head th {
   text-align: center;
   font-size: 1.1rem;
+}
+.table tbody tr td {
+  text-align: center;
+  vertical-align: middle;
+}
+.table tbody tr td .buttons {
+  justify-content: space-evenly;
 }
 </style>

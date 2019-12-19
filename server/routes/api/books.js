@@ -16,59 +16,70 @@ const upload = multer({ storage: storage });
 
 // INDEX - Get all books
 router.get('/', async (req, res) => {
-  const books = await Book.find({});
-  res.status(200).send(books);
+  try {
+    const books = await Book.find({});
+    res.status(200).send(books);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
 });
 
 // CREATE - Add a book
 router.post('/', upload.single('image'), async (req, res) => {
-  if(req.file === undefined) {
-    console.log(req.file);
-    console.log('No file selected.');
-    res.send('No file found');
-  } else {
-    const newBook = {
-      title: req.body.title,    
-      author: req.body.author,
-      description: req.body.description,
-      image: req.file.originalname,
-      isbn: req.body.isbn,
-      createdAt: new Date()
-    }
-    await Book.create(newBook, (err, book) => {
-      if(err) {
-        console.log(err);
-      } else {
-        console.log(`Book Created: ${book}`);
-        res.status(201).send(book);
+  try {
+    if(req.file === undefined) {
+      console.log(req.file);
+      console.log('No file selected.');
+      res.send('No file found');
+    } else {
+      const newBook = {
+        title: req.body.title,    
+        author: req.body.author,
+        description: req.body.description,
+        image: req.file.originalname,
+        isbn: req.body.isbn,
+        createdAt: new Date()
       }
-    })
+      await Book.create(newBook, (err, book) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Book Created: ${book}`);
+          res.status(201).send(book);
+        }
+      })
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
   }
 });
 
 // EDIT - send book to edit form
 router.get('/:id/edit', (req, res) => {
-  Book.findById(req.params.id, (err, foundBook) => {
-    if(err) {
-      console.log(err);
-    }
-    console.log(`Found Book: ${foundBook}`);
-    res.send(foundBook);
-  })
+  try {
+    Book.findById(req.params.id, (err, foundBook) => {
+      if(err) {
+        console.log(err);
+      }
+      console.log(`Found Book: ${foundBook}`);
+      res.send(foundBook);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
 });
 
 // UDPATE - Update book
 router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
-  if(req.file == undefined) {
-    console.log(req.file);
-    console.log(`No file selected.`);
-    res.send('No file found');
-  } else {
+  try {
     const book = {
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
-      image: req.file.originalname,
+      image: req.file == undefined ? req.body.image : req.file.originalname,
       isbn: req.body.isbn,
     }
     await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {
@@ -79,7 +90,10 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
         console.log(`Updated Book: ${updatedBook}`);
         res.status(200).send(updatedBook);
       }
-    })
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
   }
 });
 
@@ -99,6 +113,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    res.status(500).send(err);
   }
 });
 

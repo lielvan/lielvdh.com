@@ -31,7 +31,7 @@
         <div class="column is-one-third">
           <label class="label has-text-light" for="text">Chapter Text</label>
           <div class="control">
-            <textarea class="textarea is-info is-small" name="text" id="text" rows="10" v-model="chapter.text"></textarea>
+            <textarea class="textarea is-info is-small" name="text" id="text" rows="10" v-model="chapter.text" placeholder="Text"></textarea>
           </div>
         </div>
       </div>

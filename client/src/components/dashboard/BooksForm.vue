@@ -30,7 +30,8 @@
       <div class="columns field">
         <div class="column image-wrapper is-one-fifth">
           <!-- Check if 'image' exists and display it if so. If not, show span -->
-          <img v-if="this.book.image" :src="'/images/books/' + this.book.image" alt="No Image">
+          <img v-if="imageURL" :src="imageURL">
+          <img v-else-if="this.book.image" :src="'/images/books/' + this.book.image" alt="No Image">
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">
@@ -99,6 +100,7 @@ export default {
         image: '',
         isbn: '',
       },
+      imageURL: '',
       err: '',
     }
   },
@@ -126,10 +128,11 @@ export default {
       }
     },
     handleFileUpload(event) {
-      let newImage = event.target.files[0];
-      console.log(newImage);
-      this.book.image = newImage.name;
-      this.formData.set('image', newImage);
+      let image = event.target.files[0];
+      console.log(image);
+      this.imageURL = URL.createObjectURL(image);
+      this.book.image = image.name;
+      this.formData.set('image', image);
     },
     ...mapActions('books', ['getBooks']),
     resetForm() {

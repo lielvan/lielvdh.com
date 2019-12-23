@@ -87,7 +87,6 @@ import axios from 'axios';
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'project-edit',
   props: {
     title: {
       type: String,

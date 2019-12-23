@@ -16,60 +16,75 @@ const upload = multer({ storage: storage });
 
 // INDEX - Get all chapters
 router.get('/', async (req, res) => {
-  const chapters = await Chapter.find({});
-  res.status(200).send(chapters);
+  try {
+    const chapters = await Chapter.find({});
+    res.status(200).send(chapters);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+  
 });
 
 // CREATE - Add a chapter
 router.post('/', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
-  if(req.file === undefined) {
-    console.log(req.file);
-    console.log(`No file selected.`);
-  } else {
-    const newChapter = {
-      title: req.body.title,
-      title_link: req.body.title_link,
-      subtitle: req.body.subtitle,
-      text: req.body.text,
-      image: req.file.originalname,
-      location: req.body.location,
-      time_frame: req.body.time_frame,
-      createdAt: new Date()
-    }
-    await Chapter.create(newChapter, (err, chapter) => {
-      if(err) {
-        console.log(err);
-      } else {
-        console.log(`Chapter Created: ${chapter}`);
-        res.status(201).send(chapter);
+  try {
+    if(req.file === undefined) {
+      console.log(req.file);
+      console.log(`No file selected.`);
+    } else {
+      const newChapter = {
+        title: req.body.title,
+        title_link: req.body.title_link,
+        subtitle: req.body.subtitle,
+        text: req.body.text,
+        image: req.file.originalname,
+        location: req.body.location,
+        time_frame: req.body.time_frame,
+        createdAt: new Date()
       }
-    })
+      await Chapter.create(newChapter, (err, chapter) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Chapter Created: ${chapter}`);
+          res.status(201).send(chapter);
+        }
+      })
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
   }
+
 });
 
 // EDIT - send chapter to edit form
 router.get('/:id/edit', (req, res) => {
-  Chapter.findById(req.params.id, (err, foundChapter) => {
-    if(err) {
-      console.log(err);
-    }
-    console.log(`Found Chapter: ${foundChapter}`);
-    res.send(foundChapter);
-  })
+  try {
+    Chapter.findById(req.params.id, (err, foundChapter) => {
+      if(err) {
+        console.log(err);
+      }
+      console.log(`Found Chapter: ${foundChapter}`);
+      res.send(foundChapter);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+  
 });
 
 // UDPATE - Update chapter
 router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
-  if(req.file === undefined) {
-    console.log(req.file);
-    console.log(`No file selected.`);
-  } else {
+  try {
     const chapter = {
       title: req.body.title,
       title_link: req.body.title_link,
       subtitle: req.body.subtitle,
       text: req.body.text,
-      image: req.file.originalname,
+      image: req.file == undefined ? req.body.image : req.file.originalname,
       location: req.body.location,
       time_frame: req.body.time_frame,
     }
@@ -81,7 +96,10 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
         console.log(`Updated Chapter: ${updatedChapter}`);
         res.status(200).send(updatedChapter);
       }
-    })
+    });
+  } catch (err) {
+   console.log(err);
+   res.status(500).send(err); 
   }
 });
 
@@ -101,6 +119,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
     })
   } catch(err) {
     console.error(err);
+    res.status(500).send(err);
   }
 });
 

@@ -16,8 +16,12 @@ const upload = multer({ storage: storage });
 
 // INDEX - Get all general entries
 router.get('/', async (req, res) => {
-  const generals = await General.find({});
-  return res.status(200).send(generals);
+  try {
+    const generals = await General.find({});
+    res.status(200).send(generals);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 // CREATE - Add new general entry
@@ -34,11 +38,12 @@ router.post('/', middleware.isLoggedIn, upload.single('file'), async (req, res) 
         console.log(err);
       } else {
         console.log(`General Entry Created: ${general}`);
-        return res.status(201).send(general);
+        res.status(201).send(general);
       }
     });
   } catch(err) {
     console.log(err);
+    res.status(500).send(err);
   }
 });
 
@@ -47,6 +52,7 @@ router.get('/:label', async (req, res) => {
   General.findOne({ label: req.params.label }, (err, foundGeneral) => {
     if(err) {
       console.log(err);
+      res.status(500).send(err);
     } else {
       console.log(`General Entry Found By Label - ${req.params.label}: ${foundGeneral}`);
       res.status(200).send(foundGeneral);
@@ -59,7 +65,7 @@ router.get('/:id/edit', async (req, res) => {
   await General.findById(req.params.id, (err, general) => {
     if(err) {
       console.log(err);
-      res.send(err);
+      res.status(500).send(err);
     } else {
       console.log(`Found General Entry: ${general}`);
       res.status(200).send(general);
@@ -87,6 +93,7 @@ router.put('/:id', middleware.isLoggedIn, upload.single('file'), async (req, res
   }
   catch(err) {
     console.log(err);
+    res.status(500).send(err);
   }
 });
 
@@ -108,6 +115,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
     });
   } catch(err) {
     console.error(err);
+    res.status(500).send(err);
   }
 });
 

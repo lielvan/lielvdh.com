@@ -25,7 +25,7 @@ const indexRoutes    = require('./routes/api/index'),
       motosRoutes    = require('./routes/api/motos');
 
 // MongoDB Connection
-const url = process.env.DATABASE_URL || "mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh_dev?retryWrites=true&w=majority"
+const url = process.env.DATABASE_URL
 mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -89,5 +89,5 @@ if(process.env.NODE_ENV === 'production') {
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Server started on port ${port}`));

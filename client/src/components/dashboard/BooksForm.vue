@@ -131,8 +131,39 @@ export default {
       let image = event.target.files[0];
       console.log(image);
       this.imageURL = URL.createObjectURL(image);
-      this.book.image = image.name;
-      this.formData.set('image', image);
+      // this.book.image = image.name;
+      this.getSignedRequest(image);
+      // this.formData.set('image', image);
+    },
+    getSignedRequest(file) {
+      const xhr = new XMLHttpRequest();
+      const file_name = encodeURIComponent(file.name);
+      xhr.open('GET', `/api/sign-s3?file-name=${file_name}&file-type=${file.type}`);
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+          if(xhr.status === 200){
+            console.log(xhr.responseText);
+            const response = JSON.parse(xhr.responseText);
+            this.uploadFile(file, response.signedRequest, response.url);
+          }
+          else {
+            this.err = 'Could not get signed URL.';
+          }
+        }
+      };
+      xhr.send();
+    },
+    uploadFile(file, signedRequest, url) {
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', signedRequest);
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            this.book.image = url;
+          }
+        }
+      }
+      xhr.send(file);
     },
     ...mapActions('books', ['getBooks']),
     resetForm() {

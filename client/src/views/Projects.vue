@@ -18,9 +18,9 @@
             </div>
           </div>
           <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
-            <img class="project-code right-side" :src="'/images/projects/' + project.code_image" alt="Project Image Unavailable">
+            <img class="project-code right-side" :src="`${awsURL}/${project.code_image}`" alt="Project Image Unavailable">
             <div class="gif-wrapper">
-              <img class="project-gif" :src="'/images/projects/' + project.gif_image" alt="Project Image Unavailable">
+              <img class="project-gif" :src="`${awsURL}/${project.gif_image}`" alt="Project Image Unavailable">
             </div>
           </div>
         </div>
@@ -37,7 +37,13 @@ export default {
   data() {
     return {
       projects: [],
-      error: ''
+      error: '',
+      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
+    }
+  },
+  computed: {
+    awsURL: function() {
+      return `https://s3.amazonaws.com/${this.awsS3Bucket}/projects`
     }
   },
   created() {

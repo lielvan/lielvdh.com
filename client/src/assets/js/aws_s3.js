@@ -1,7 +1,7 @@
 export default {
-  getSignedRequest(file) {
+  getSignedRequest(file, folder) {
     const xhr = new XMLHttpRequest();
-    const file_name = encodeURIComponent(file.name);
+    const file_name = folder === null ? encodeURIComponent(file.name) : `${folder}/${encodeURIComponent(file.name)}`;
     xhr.open('GET', `/api/sign-s3?file-name=${file_name}&file-type=${file.type}`);
     xhr.onreadystatechange = () => {
       if(xhr.readyState === 4){

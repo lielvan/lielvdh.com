@@ -71,7 +71,7 @@ export default {
   margin-bottom: 70px;
 }
 .reading-list-img {
-  background-image: url("/images/books/undraw_reading_list.svg");
+  background-image: url("/images/undraw_reading_list.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

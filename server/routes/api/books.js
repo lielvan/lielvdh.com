@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Book = require('../../models/book');
 const middleware = require('../../middleware');
+const aws = require('aws-sdk');
 
 // INDEX - Get all books
 router.get('/', async (req, res) => {
@@ -82,11 +83,20 @@ router.put('/:id', middleware.isLoggedIn, async (req, res) => {
 
 // DESTROY - Delete a book
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
+  const s3 = new aws.S3();
   try {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
       if(err || bookDeleted === null) console.log(err);
       else {
         // TODO - Delete from AWS S3 bucket
+        let params = {
+          Bucket: process.env.S3_BUCKET,
+          Key: `books/${bookDeleted.image}`,
+        }
+        s3.deleteObject(params, (err, data) => {
+          if(err) console.log(err, err.stack);
+          else console.log(`Book image ${bookDeleted.image} deleted from AWS S3 - ${data.DeleteMarker}`);
+        });
         console.log(`Deleted Book: ${bookDeleted}`);
         res.status(200).send();
       }

@@ -38,7 +38,7 @@
       <div class="columns field">
         <div class="column is-one-fifth">
           <img v-if="codeImageURL" :src="codeImageURL">
-          <img v-else-if="this.project.code_image" :src="'/images/projects/' + this.project.code_image" alt="No Image">
+          <img v-else-if="this.project.code_image" :src="`https://s3.amazonaws.com/${awsS3Bucket}/projects/${this.project.code_image}`" alt="No Image">
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">
@@ -57,7 +57,7 @@
       <div class="columns field">
         <div class="column is-one-fifth">
           <img v-if="gifImageURL" :src="gifImageURL">
-          <img v-else-if="this.project.gif_image" :src="'/images/projects/' + this.project.gif_image" alt="No Image">
+          <img v-else-if="this.project.gif_image" :src="`https://s3.amazonaws.com/${awsS3Bucket}/projects/${this.project.gif_image}`" alt="No Image">
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">
@@ -84,7 +84,8 @@
 
 <script>
 import axios from 'axios';
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
+import awsS3 from '@/assets/js/aws_s3.js';
 
 export default {
   props: {
@@ -98,7 +99,6 @@ export default {
   },
   data() {
     return {
-      formData: new FormData(),
       project: {
         title: '',
         github_link: '',
@@ -110,6 +110,7 @@ export default {
       codeImageURL: '',
       gifImageURL: '',
       err: '',
+      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
     }
   },
   async mounted() {
@@ -126,20 +127,13 @@ export default {
   },
   methods: {
     submit() {
-      this.formData.append('title', this.project.title);
-      this.formData.append('github_link', this.project.github_link);
-      this.formData.append('text', this.project.text);
-      this.formData.append('language', this.project.language);
-      this.formData.append('code_image', this.project.code_image);
-      this.formData.append('gif_image', this.project.gif_image);
-
       if(this.request_type === 'create') {
-        this.$store.dispatch('projects/addProject', this.formData)
+        this.$store.dispatch('projects/addProject', this.project)
           .then(() => {
             this.$router.push('/dashboard/projects');
           });
       } else if(this.request_type === 'edit') {
-        this.$store.dispatch('projects/editProject', { id: this.$route.params.id, project: this.formData })
+        this.$store.dispatch('projects/editProject', { id: this.$route.params.id, project: this.project })
           .then(() => {
             this.getProjects();
             this.$router.push('/dashboard/projects');
@@ -151,16 +145,17 @@ export default {
     },
     handleFileUpload(event, type) {
       let image = event.target.files[0];
+      let s3_folder = 'projects';
       console.log(image);
       if(type === 'code') {
         this.codeImageURL = URL.createObjectURL(image);
-        this.project.code_image = image.name;
-        this.formData.set('code_image', image);
+        awsS3.getSignedRequest(image, s3_folder);
+        this.project.code_image = encodeURIComponent(image.name);
       }
       if(type === 'gif') {
         this.gifImageURL = URL.createObjectURL(image);
-        this.project.gif_image = image.name;
-        this.formData.set('gif_image', image);
+        awsS3.getSignedRequest(image, s3_folder);
+        this.project.gif_image = encodeURIComponent(image.name);
       }
     },
     ...mapActions('projects', ['getProjects']),

@@ -38,7 +38,7 @@
       <div class="columns field">
         <div class="column image-wrapper is-one-fifth">
           <img v-if="imageURL" :src="imageURL">
-          <img v-else-if="this.chapter.image" :src="'/images/chapters/' + this.chapter.image" alt="No Image">
+          <img v-else-if="this.chapter.image" :src="`https://s3.amazonaws.com/${awsS3Bucket}/chapters/${this.chapter.image}`" alt="No Image">
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">
@@ -82,6 +82,7 @@
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex'
+import awsS3 from '@/assets/js/aws_s3.js';
 
 export default {
   props: {
@@ -95,7 +96,6 @@ export default {
   },
   data() {
     return {
-      formData: new FormData(),
       chapter: {
         title: '',
         title_link: '',
@@ -107,6 +107,7 @@ export default {
       },
       imageURL: '',
       err: '',
+      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
     }
   },
   async mounted() {
@@ -123,21 +124,13 @@ export default {
   },
   methods: {
     submit(){
-      this.formData.append('title', this.chapter.title);
-      this.formData.append('title_link', this.chapter.title_link);
-      this.formData.append('subtitle', this.chapter.subtitle);
-      this.formData.append('text', this.chapter.text);
-      this.formData.append('image', this.chapter.image);
-      this.formData.append('location', this.chapter.location);
-      this.formData.append('time_frame', this.chapter.time_frame);
-
       if(this.request_type === 'create') {
-        this.$store.dispatch('chapters/addChapter', this.formData)
+        this.$store.dispatch('chapters/addChapter', this.chapter)
           .then(() => {
             this.$router.push('/dashboard/chapters');
           })
       } else if(this.request_type === 'edit') {
-        this.$store.dispatch('chapters/editChapter', { id: this.$route.params.id, chapter: this.formData })
+        this.$store.dispatch('chapters/editChapter', { id: this.$route.params.id, chapter: this.chapter })
           .then(() => {
             this.getChapters();
             this.$router.push('/dashboard/chapters');
@@ -150,8 +143,9 @@ export default {
       let image = event.target.files[0];
       console.log(image);
       this.imageURL = URL.createObjectURL(image);
-      this.chapter.image = image.name;
-      this.formData.set('image', image);
+      let s3_folder = 'chapters';
+      awsS3.getSignedRequest(image, s3_folder);
+      this.chapter.image = encodeURIComponent(image.name);
     },
     ...mapActions('chapters', ['getChapters']),
     resetForm() {

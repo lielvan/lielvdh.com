@@ -17,15 +17,15 @@ router.get('/', async (req, res) => {
 
 // CREATE - Add a book
 router.post('/', middleware.isLoggedIn, async (req, res) => {
+  const newBook = {
+    title: req.body.title,    
+    author: req.body.author,
+    description: req.body.description,
+    image: req.body.image,
+    isbn: req.body.isbn,
+    createdAt: new Date()
+  }
   try {
-    const newBook = {
-      title: req.body.title,    
-      author: req.body.author,
-      description: req.body.description,
-      image: req.body.image,
-      isbn: req.body.isbn,
-      createdAt: new Date()
-    }
     await Book.create(newBook, (err, book) => {
       if(err) {
         console.log(err);
@@ -58,14 +58,14 @@ router.get('/:id/edit', (req, res) => {
 
 // UDPATE - Update book
 router.put('/:id', middleware.isLoggedIn, async (req, res) => {
+  const book = {
+    title: req.body.title,
+    author: req.body.author,
+    description: req.body.description,
+    image: req.body.image,
+    isbn: req.body.isbn,
+  }
   try {
-    const book = {
-      title: req.body.title,
-      author: req.body.author,
-      description: req.body.description,
-      image: req.body.image,
-      isbn: req.body.isbn,
-    }
     await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {
       if(err) {
         console.log(err);
@@ -88,7 +88,6 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
       if(err || bookDeleted === null) console.log(err);
       else {
-        // TODO - Delete from AWS S3 bucket
         let params = {
           Bucket: process.env.S3_BUCKET,
           Key: `books/${bookDeleted.image}`,

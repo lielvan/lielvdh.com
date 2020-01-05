@@ -1,18 +1,8 @@
 const express  = require('express'),
       router = express.Router(),
-      General = require('../../models/general');
-      middleware = require('../../middleware');
-      multer = require('multer');
-      fs = require('fs');
-
-// File upload setup
-const storage = multer.diskStorage({
-  destination: './server/public/doc',
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
+      General = require('../../models/general'),
+      middleware = require('../../middleware'),
+      aws = require('aws-sdk');
 
 // INDEX - Get all general entries
 router.get('/', async (req, res) => {
@@ -25,14 +15,14 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add new general entry
-router.post('/', middleware.isLoggedIn, upload.single('file'), async (req, res) => {
-  let newGeneral = {
+router.post('/', middleware.isLoggedIn, async (req, res) => {
+  const newGeneral = {
     label: req.body.label,
     is_file: req.body.is_file,
+    text: req.body.text,
     createdAt: new Date()
   }
   try {
-    (req.file === undefined) ? (newGeneral.text = req.body.text) : (newGeneral.text = req.file.originalname);
     await General.create(newGeneral, (err, general) => {
       if(err) {
         console.log(err);
@@ -49,38 +39,48 @@ router.post('/', middleware.isLoggedIn, upload.single('file'), async (req, res) 
 
 // Find general entry by label
 router.get('/:label', async (req, res) => {
-  General.findOne({ label: req.params.label }, (err, foundGeneral) => {
-    if(err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      console.log(`General Entry Found By Label - ${req.params.label}: ${foundGeneral}`);
-      res.status(200).send(foundGeneral);
-    } 
-  });
+  try {
+    General.findOne({ label: req.params.label }, (err, foundGeneral) => {
+      if(err) {
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        console.log(`General Entry Found By Label - ${req.params.label}: ${foundGeneral}`);
+        res.status(200).send(foundGeneral);
+      } 
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
 });
 
 // EDIT - Get general entry info and send to frontend
 router.get('/:id/edit', async (req, res) => {
-  await General.findById(req.params.id, (err, general) => {
-    if(err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      console.log(`Found General Entry: ${general}`);
-      res.status(200).send(general);
-    }
-  });
+  try {
+    await General.findById(req.params.id, (err, general) => {
+      if(err) {
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        console.log(`Found General Entry: ${general}`);
+        res.status(200).send(general);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
 });
 
 // UPDATE - Update general entry
-router.put('/:id', middleware.isLoggedIn, upload.single('file'), async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, async (req, res) => {
   const general = {
     label: req.body.label,
-    is_file: req.body.is_file
+    is_file: req.body.is_file,
+    text: req.body.text,
   }
   try {
-    (req.file === undefined) ? general.text = req.body.text : general.text = req.file.originalname; 
     await General.findByIdAndUpdate({ _id: req.params.id }, general, { new: true }, (err, updatedGeneral) => {
       if(err) {
         console.log(err);
@@ -99,14 +99,19 @@ router.put('/:id', middleware.isLoggedIn, upload.single('file'), async (req, res
 
 // DELETE - Delete a general entry
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
+  const s3 = new aws.S3();
   try {
     await General.findOneAndDelete({ _id: req.params.id }, (err, deletedGeneral) => {
       if(err || deletedGeneral === null) throw { error: err, message: 'Error has occurred', general: deletedGeneral };
       else {
         if(deletedGeneral.is_file) {
-          fs.unlink(`./server/public/doc/${deletedGeneral.text}`, (err) => {
-            if(err) throw err;
-            console.log(`${deletedGeneral.text} was deleted`);
+          let params = {
+            Bucket: process.env.S3_BUCKET,
+            Key: `general/${deletedGeneral.text}`,
+          }
+          s3.deleteObject(params, (err, data) => {
+            if(err) console.log(err, err.stack);
+            else console.log(`General file ${deletedGeneral.text} deleted from AWS S3.`);
           });
         }
         console.log(`Deleted General Entry: ${deletedGeneral}`);

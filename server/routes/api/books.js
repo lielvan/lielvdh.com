@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const Book = require('../../models/book');
 const middleware = require('../../middleware');
 const aws = require('aws-sdk');
@@ -33,7 +34,7 @@ router.post('/', middleware.isLoggedIn, async (req, res) => {
         console.log(`Book Created: ${book}`);
         res.status(201).send(book);
       }
-    })
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
@@ -86,7 +87,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   const s3 = new aws.S3();
   try {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
-      if(err || bookDeleted === null) console.log(err);
+      if(err || bookDeleted === null) throw { error: err, message: 'Error has occurred', book: bookDeleted };
       else {
         let params = {
           Bucket: process.env.S3_BUCKET,

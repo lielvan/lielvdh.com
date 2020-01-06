@@ -37,7 +37,7 @@
         <div class="column is-one-quarter">
           <div class="file has-name is-centered is-boxed is-fullwidth is-primary">
             <label class="file-label">
-              <input class="file-input" type="file" name="image" @change="handleFileUpload($event)" placeholder="Image">
+              <input class="file-input" type="file" name="image" ref="image" @change="handleFileUpload($event)" placeholder="Image">
               <span class="file-cta">
                 <span class="file-icon"><font-awesome-icon icon="upload"></font-awesome-icon></span>
                 <span class="file-label">Choose an image…</span>
@@ -66,8 +66,7 @@
 
 <script>
 import axios from 'axios';
-import { mapActions } from 'vuex';
-import awsS3 from '@/assets/js/aws_s3.js';
+import { mapActions } from 'vuex'
 
 export default {
   props: {
@@ -93,6 +92,7 @@ export default {
   },
   data() {
     return {
+      formData: new FormData(),
       book: {
         title: '',
         author: '',
@@ -102,18 +102,23 @@ export default {
       },
       imageURL: '',
       err: '',
-      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
     }
   },
   methods: {
     submit() {
+      this.formData.append('title', this.book.title);
+      this.formData.append('author', this.book.author);
+      this.formData.append('description', this.book.description);
+      this.formData.append('image', this.book.image);
+      this.formData.append('isbn', this.book.isbn);
+
       if(this.request_type === 'create'){
-        this.$store.dispatch('books/addBook', this.book)
+        this.$store.dispatch('books/addBook', this.formData)
         .then(() => {
           this.$router.push('/dashboard/books');
         })
       } else if(this.request_type === 'edit'){
-        this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.book })
+        this.$store.dispatch('books/editBook', { id: this.$route.params.id, book: this.formData })
         .then(() => {
           this.getBooks();
           this.$router.push('/dashboard/books');
@@ -122,10 +127,6 @@ export default {
         this.err = 'There seems to be an issue with the provided request type.';
       }
     },
-    /*
-      Use Javascript URL core object helper to create image preview.
-      Then, upload file(image) to AWS S3 bucket.
-    */
     handleFileUpload(event) {
       let image = event.target.files[0];
       console.log(image);

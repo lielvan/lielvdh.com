@@ -11,7 +11,7 @@
               </div>
 
               <div class="column is-one-quarter-mobile is-one-quarter-tablet is-one-quarter-desktop image">
-                <img :src="'/images/chapters/' + chapter.image" alt="Chapter Image Unavailable">
+                <img :src="`${awsURL}/${chapter.image}`" alt="Chapter Image Unavailable">
               </div>
             </div>
             <div class="columns">
@@ -34,6 +34,16 @@ export default {
     chapter: {
         type: Object,
         required: true,
+    }
+  },
+  data() {
+    return {
+      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
+    }
+  },
+  computed: {
+    awsURL: function() {
+      return `https://s3.amazonaws.com/${this.awsS3Bucket}/chapters`
     }
   },
 }

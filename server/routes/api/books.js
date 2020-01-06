@@ -3,16 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Book = require('../../models/book');
 const middleware = require('../../middleware');
-const fs = require('fs');
-
-// File upload setup
-const storage = multer.diskStorage({
-  destination: './server/public/images/books',
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
+const aws = require('aws-sdk');
 
 // INDEX - Get all books
 router.get('/', async (req, res) => {
@@ -26,30 +17,24 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE - Add a book
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/', middleware.isLoggedIn, async (req, res) => {
+  const newBook = {
+    title: req.body.title,    
+    author: req.body.author,
+    description: req.body.description,
+    image: req.body.image,
+    isbn: req.body.isbn,
+    createdAt: new Date()
+  }
   try {
-    if(req.file === undefined) {
-      console.log(req.file);
-      console.log('No file selected.');
-      res.send('No file found');
-    } else {
-      const newBook = {
-        title: req.body.title,    
-        author: req.body.author,
-        description: req.body.description,
-        image: req.file.originalname,
-        isbn: req.body.isbn,
-        createdAt: new Date()
+    await Book.create(newBook, (err, book) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(`Book Created: ${book}`);
+        res.status(201).send(book);
       }
-      await Book.create(newBook, (err, book) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(`Book Created: ${book}`);
-          res.status(201).send(book);
-        }
-      })
-    }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).send(err);
@@ -73,15 +58,15 @@ router.get('/:id/edit', (req, res) => {
 });
 
 // UDPATE - Update book
-router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, res) => {
+router.put('/:id', middleware.isLoggedIn, async (req, res) => {
+  const book = {
+    title: req.body.title,
+    author: req.body.author,
+    description: req.body.description,
+    image: req.body.image,
+    isbn: req.body.isbn,
+  }
   try {
-    const book = {
-      title: req.body.title,
-      author: req.body.author,
-      description: req.body.description,
-      image: req.file == undefined ? req.body.image : req.file.originalname,
-      isbn: req.body.isbn,
-    }
     await Book.findByIdAndUpdate({ _id: req.params.id }, book, {new: true}, (err, updatedBook) => {
       if(err) {
         console.log(err);
@@ -99,15 +84,20 @@ router.put('/:id', middleware.isLoggedIn, upload.single('image'), async (req, re
 
 // DESTROY - Delete a book
 router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
+  const s3 = new aws.S3();
   try {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
       if(err || bookDeleted === null) throw { error: err, message: 'Error has occurred', book: bookDeleted };
       else {
-        fs.unlink(`./server/public/images/books/${bookDeleted.image}`, (err) => {
-          if(err) throw err;
-          console.log(`${bookDeleted.image} was deleted`);
+        let params = {
+          Bucket: process.env.S3_BUCKET,
+          Key: `books/${bookDeleted.image}`,
+        }
+        s3.deleteObject(params, (err, data) => {
+          if(err) console.log(err, err.stack);
+          else console.log(`Book image ${bookDeleted.image} deleted from AWS S3 - ${data.DeleteMarker}`);
         });
-        console.log(bookDeleted);
+        console.log(`Deleted Book: ${bookDeleted}`);
         res.status(200).send();
       }
     });

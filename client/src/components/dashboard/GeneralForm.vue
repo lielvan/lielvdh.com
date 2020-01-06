@@ -56,6 +56,7 @@
 <script>
 import axios from 'axios';
 import { mapActions } from 'vuex'
+import awsS3 from '@/assets/js/aws_s3.js';
 
 export default {
   props: {
@@ -69,7 +70,6 @@ export default {
   },
   data() {
     return {
-      formData: new FormData(),
       general: {
         label: '',
         is_file: false,
@@ -92,17 +92,13 @@ export default {
   },
   methods: {
     submit() {
-      this.formData.append('label', this.general.label);
-      this.formData.append('is_file', this.general.is_file);
-      this.formData.append('text', this.general.text);
-
       if(this.request_type === 'create') {
-        this.$store.dispatch('general/addGeneral', this.formData)
+        this.$store.dispatch('general/addGeneral', this.general)
           .then(() => {
             this.$router.push('/dashboard/general');
           });
       } else if(this.request_type === 'edit') {
-        this.$store.dispatch('general/editGeneral', { id: this.$route.params.id, general: this.formData })
+        this.$store.dispatch('general/editGeneral', { id: this.$route.params.id, general: this.general })
           .then(() => {
             this.getGenerals();
             this.$router.push('/dashboard/general');
@@ -113,9 +109,10 @@ export default {
     },
     handleFileUpload(event) {
       let file = event.target.files[0];
+      let s3_folder = 'general';
       console.log(file);
-      this.general.text = file.name;
-      this.formData.set('file', file);
+      awsS3.getSignedRequest(file, s3_folder);
+      this.general.text = encodeURIComponent(file.name);
     },
     ...mapActions('general', ['getGenerals']),
     resetForm() {

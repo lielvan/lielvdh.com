@@ -26,7 +26,7 @@
     >
       <slide v-for="(book, index) in books" :item="book" :index="index" :key="book._id">
         <div class="book-img-wrapper">
-          <img class="book-img" :src="'/images/books/' + book.image" alt="Book Image Unavailable">
+          <img class="book-img" :src="`${awsURL}/${book.image}`" alt="Book Image Unavailable">
           <div class="book-info">
             <p id="book-description">{{ book.description }}</p>
           </div>
@@ -42,7 +42,13 @@ export default {
   data() {
     return {
       books: [],
-      error: ''
+      error: '',
+      awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
+    }
+  },
+  computed: {
+    awsURL: function() {
+      return `https://s3.amazonaws.com/${this.awsS3Bucket}/books`
     }
   },
   created() {
@@ -65,7 +71,7 @@ export default {
   margin-bottom: 70px;
 }
 .reading-list-img {
-  background-image: url("/images/books/undraw_reading_list.svg");
+  background-image: url("/images/undraw_reading_list.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

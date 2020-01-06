@@ -7,7 +7,7 @@
           <p class="is-size-7-mobile">Currently open to new opportunities within the realm of the evergrowing tech world</p>
   
           <div class="cv-download">
-            <a :href="'/doc/' + this.cv.text" target="_blank">My Curriculum Vitae</a>
+            <a :href="`${awsURL}/${this.cv.text}`" target="_blank">My Curriculum Vitae</a>
           </div>
           
           <div class="footer-rights">
@@ -32,9 +32,15 @@ export default {
       return {
         audio: new Audio("/sound/Lets_Get_Ready_To_Rumble.mp3"),
         error: '',
-        cv: ''
+        cv: '',
+        awsS3Bucket: process.env.VUE_APP_S3_BUCKET,
       }
     },
+    computed: {
+    awsURL: function() {
+      return `https://s3.amazonaws.com/${this.awsS3Bucket}/general`
+    }
+  },
     async mounted() {
       await axios.get(`/api/general/liel-cv`)
         .then((response) => {

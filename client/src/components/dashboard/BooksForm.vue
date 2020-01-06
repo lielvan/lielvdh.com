@@ -31,7 +31,7 @@
         <div class="column image-wrapper is-one-fifth">
           <!-- Check if 'image' exists and display it if so. If not, show span -->
           <img v-if="imageURL" :src="imageURL">
-          <img v-else-if="this.book.image" :src="'/images/books/' + this.book.image" alt="No Image">
+          <img v-else-if="this.book.image" :src="`https://s3.amazonaws.com/${awsS3Bucket}/books/${this.book.image}`" alt="No Image">
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">
@@ -131,8 +131,9 @@ export default {
       let image = event.target.files[0];
       console.log(image);
       this.imageURL = URL.createObjectURL(image);
-      this.book.image = image.name;
-      this.formData.set('image', image);
+      let s3_folder = 'books';
+      awsS3.getSignedRequest(image, s3_folder);
+      this.book.image = encodeURIComponent(image.name);
     },
     ...mapActions('books', ['getBooks']),
     resetForm() {

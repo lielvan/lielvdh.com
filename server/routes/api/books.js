@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const Book = require('../../models/book');
 const middleware = require('../../middleware');
 const aws = require('aws-sdk');
@@ -87,7 +86,7 @@ router.delete('/:id', middleware.isLoggedIn, async (req, res) => {
   const s3 = new aws.S3();
   try {
     await Book.findOneAndDelete({ _id: req.params.id }, (err, bookDeleted) => {
-      if(err || bookDeleted === null) throw { error: err, message: 'Error has occurred', book: bookDeleted };
+      if(err || bookDeleted === null) console.log(err);
       else {
         let params = {
           Bucket: process.env.S3_BUCKET,

@@ -1,6 +1,7 @@
 //********************************
 //* GLOBAL VARIABLES
 //*********************************
+require('dotenv').config();
 const express       = require('express'),
       app           = express(),
       bodyParser    = require('body-parser'),
@@ -25,11 +26,12 @@ const indexRoutes    = require('./routes/api/index'),
       motosRoutes    = require('./routes/api/motos');
 
 // MongoDB Connection
-const url = process.env.DATABASE_URL || "mongodb+srv://lvdh:lvdH1856@lielvdh-cluster-8naqb.mongodb.net/lielvdh_dev?retryWrites=true&w=majority"
+const url = process.env.DATABASE_URL;
 mongoose.connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
 }).then(() => {
     console.log("Connected to db");
 }).catch(err => {
@@ -89,5 +91,5 @@ if(process.env.NODE_ENV === 'production') {
   app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Server started on port ${port}`));

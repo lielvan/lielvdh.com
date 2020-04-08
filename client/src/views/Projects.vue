@@ -20,7 +20,9 @@
           <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
             <img class="project-code right-side" :src="`${awsURL}/${project.code_image}`" alt="Project Image Unavailable">
             <div class="gif-wrapper">
-              <img class="project-gif" :src="`${awsURL}/${project.gif_image}`" alt="Project Image Unavailable">
+              <video class="project-gif" autoplay loop>
+                <source :src="`${awsURL}/${project.gif_image}`" type="video/mp4">
+              </video>
             </div>
           </div>
         </div>

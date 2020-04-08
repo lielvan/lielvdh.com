@@ -56,8 +56,12 @@
       </div>
       <div class="columns field">
         <div class="column is-one-fifth">
-          <img v-if="gifImageURL" :src="gifImageURL">
-          <img v-else-if="this.project.gif_image" :src="`https://s3.amazonaws.com/${awsS3Bucket}/projects/${this.project.gif_image}`" alt="No Image">
+          <video v-if="gifImageURL" :src="gifImageURL">
+            <source :src="gifImageURL" type="video/mp4">
+          </video>
+          <video v-else-if="this.project.gif_image" controls autoplay loop>
+            <source :src="`https://s3.amazonaws.com/${awsS3Bucket}/projects/${this.project.gif_image}`" type="video/mp4">
+          </video>
           <span v-else id="NoImage">No Image To Display</span>
         </div>
         <div class="column is-one-quarter">

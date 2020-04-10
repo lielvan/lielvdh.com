@@ -1,6 +1,6 @@
 <template>
   <section id="projects" class="hero is-medium">
-    <h2 class="title is-size-2-desktop hidden-fade-in-left section-title" v-fadein="'showElement'">Selected Projects <br> I Enjoyed Crafting</h2>
+    <h2 class="title is-size-2-desktop hidden-fade-in-top section-title" v-fadein="'showElement'">Selected Projects <br> I Enjoyed Crafting</h2>
     <div class="hero-body projects-wrapper">
       <div class="container">
 
@@ -20,8 +20,9 @@
           <div class="column is-full-touch is-two-thirds-desktop project-images is-flex">
             <img class="project-code right-side" :src="`${awsURL}/${project.code_image}`" alt="Project Image Unavailable">
             <div class="gif-wrapper">
-              <video class="project-gif" autoplay loop autobuffer muted playsinline>
+              <video class="project-gif" autoplay loop muted playsinline :poster="`${awsURL}/${project.code_image}`">
                 <source :src="`${awsURL}/${project.gif_image}`" type="video/mp4">
+                Sorry, your browser doesn't support embedded videos.
               </video>
             </div>
           </div>
@@ -29,7 +30,6 @@
 
       </div>
     </div>
-    
   </section>
 </template>
 

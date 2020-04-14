@@ -44,7 +44,7 @@ h1::after {
 }
 h1::before, h1::after {
   transition: width 1.5s ease;
-  transition-delay: 1.5s;
+  transition-delay: 2.7s;
   background-color: #fff;
   content: '';
   display: block;

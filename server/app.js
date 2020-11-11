@@ -82,7 +82,7 @@ app.use('/api/motos', motosRoutes);
 
 // Handle Production
 if(process.env.NODE_ENV === 'production') {
-  app.use(enforce.HTTPS({ trustProtoHeader: true })); // Redirect HTTP requests to HTTPS
+  // app.use(enforce.HTTPS({ trustProtoHeader: true })); // Redirect HTTP requests to HTTPS
 
   // Static folder
   app.use(express.static(__dirname + '/public/'));

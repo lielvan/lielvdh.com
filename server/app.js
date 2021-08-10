@@ -45,7 +45,7 @@ app.use(cors());
 
 // Passport
 app.use(session({
-  secret: "lvdhsession",
+  secret: process.env.PASSPORT_SECRET,
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({
